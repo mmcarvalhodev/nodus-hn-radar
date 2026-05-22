@@ -213,11 +213,32 @@
     btn.type = "button";
     btn.title = "Translate this title";
     btn.textContent = "🌐";
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       e.preventDefault();
       e.stopPropagation();
-      translatePostTitle(athingRow);
-      btn.remove();
+      if (btn.dataset.busy === "1") return;
+      btn.dataset.busy = "1";
+      btn.disabled = true;
+      btn.classList.add("loading");
+      btn.textContent = "⏳";
+
+      const ok = await translatePostTitle(athingRow);
+
+      if (ok) {
+        btn.remove();
+        return;
+      }
+      // No-op (same language) or translation unavailable — restore button with hint
+      btn.classList.remove("loading");
+      btn.classList.add("no-op");
+      btn.textContent = "🌐";
+      btn.disabled = false;
+      delete btn.dataset.busy;
+      btn.title = "Already in your target language, or translation unavailable";
+      setTimeout(() => {
+        btn.classList.remove("no-op");
+        btn.title = "Translate this title";
+      }, 2500);
     });
     titleline.appendChild(btn);
   }
@@ -299,17 +320,17 @@
 
   async function translatePostTitle(athingRow) {
     const titleline = athingRow.querySelector(".titleline");
-    if (!titleline) return;
+    if (!titleline) return false;
     const link = titleline.querySelector("a:first-of-type");
-    if (!link) return;
-    if (link.dataset.lensTranslating === "1") return;
-    if (link.dataset.lensOriginal) return; // already translated
+    if (!link) return false;
+    if (link.dataset.lensTranslating === "1") return false;
+    if (link.dataset.lensOriginal) return true; // already translated counts as success
 
     const original = (link.textContent || "").trim();
-    if (!original) return;
+    if (!original) return false;
 
     const target = resolveTargetLang();
-    if (!target) return;
+    if (!target) return false;
 
     const cacheKey = `${target}::${original}`;
     let result = titleTransCache.get(cacheKey);
@@ -328,8 +349,9 @@
       if (result) titleTransCache.set(cacheKey, result);
     }
 
-    if (!result || !result.translated) return;
+    if (!result || !result.translated) return false;
     applyTitleTranslation(link, original, result.translated, result.sourceLang || "??", target);
+    return true;
   }
 
   function applyTitleTranslation(link, original, translated, sourceLang, targetLang) {

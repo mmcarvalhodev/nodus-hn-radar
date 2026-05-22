@@ -71,7 +71,9 @@ html.lens-on #hnmain {
   border: none !important;
 }
 
-html.lens-on #hnmain > tbody > tr > td {
+/* Body padding for content rows only — exclude the HN header row (td[bgcolor="#ff6600"]).
+   The header is intentionally left untouched so it renders exactly like vanilla HN. */
+html.lens-on #hnmain > tbody > tr > td:not([bgcolor="#ff6600"]) {
   padding: 0 24px !important;
 }
 
@@ -79,26 +81,11 @@ html.lens-on table {
   border-collapse: separate !important;
 }
 
-/* ── Top header bar ──────────────────────────────────────── */
-
-html.lens-on td[bgcolor="#ff6600"],
-html.lens-on .pagetop {
-  background: var(--bg-header) !important;
-  padding: 10px 14px !important;
-}
-
-html.lens-on .pagetop,
-html.lens-on .pagetop a,
-html.lens-on .pagetop a:link,
-html.lens-on .pagetop a:visited {
-  color: #ffffff !important;
-}
-
-html.lens-on .hnname a {
-  color: #ffffff !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.3px !important;
-}
+/* ── Top header bar — DO NOT STYLE ──────────────────────────
+   The native HN orange header is preserved as-is. No background,
+   padding, color or font overrides are applied to it. Any rule
+   targeting td[bgcolor="#ff6600"], .pagetop or .hnname has been
+   removed to prevent visual breakage of the header row. */
 
 /* ── Frontpage post rows ──────────────────────────────────── */
 
@@ -374,6 +361,25 @@ html.lens-on .lens-trans-btn {
 html.lens-on .lens-trans-btn:hover {
   filter: grayscale(0) opacity(1);
   transform: scale(1.15);
+}
+
+html.lens-on .lens-trans-btn.loading {
+  filter: grayscale(0) opacity(1);
+  cursor: progress;
+  animation: lens-pulse 1s ease-in-out infinite;
+}
+
+html.lens-on .lens-trans-btn.no-op {
+  filter: grayscale(0) opacity(0.85);
+  outline: 1px dashed rgba(255, 102, 0, 0.55);
+  outline-offset: 1px;
+  border-radius: 3px;
+  cursor: help;
+}
+
+@keyframes lens-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1;    }
 }
 
 /* ── "Translate all" bar above the post list ─────────────── */
