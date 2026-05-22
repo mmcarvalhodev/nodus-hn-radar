@@ -1,0 +1,701 @@
+/* NODUS HN Radar — Lens v0.2
+ * Overlay over Hacker News. Activates when html.lens-on is present.
+ */
+
+/* ── Theme variables ─────────────────────────────────────── */
+
+html.lens-on {
+  --hn-orange:        #ff6600;
+  --nodus-gold:       #facc15;
+  --highlight-show:   #16a34a;
+  --highlight-ask:    #ea580c;
+  --highlight-launch: #8b5cf6;
+  --highlight-tell:   #0891b2;
+  --highlight-poll:   #db2777;
+  --op-bg:            rgba(255, 102, 0, 0.07);
+  --op-border:        rgba(255, 102, 0, 0.35);
+
+  /* Light theme defaults */
+  --bg-body:          #ffffff;
+  --bg-main:          #ffffff;
+  --bg-header:        #ff6600;
+  --bg-card:          #fafafa;
+  --bg-code:          #f4f4f4;
+  --bg-chip:          #f0f0f0;
+  --text-primary:     #1a1a1a;
+  --text-secondary:   #555555;
+  --text-meta:        #828282;
+  --text-link:        #1a1a1a;
+  --text-link-visited:#9a9a9a;
+  --border-soft:      rgba(0,0,0,0.08);
+  --border-card:      rgba(0,0,0,0.06);
+}
+
+html.lens-theme-dark {
+  --bg-body:          #0f0f0f;
+  --bg-main:          #0f0f0f;
+  --bg-header:        #c95300;
+  --bg-card:          #181818;
+  --bg-code:          #1a1a1a;
+  --bg-chip:          #1e1e1e;
+  --text-primary:     #e5e5e5;
+  --text-secondary:   #bbbbbb;
+  --text-meta:        #808080;
+  --text-link:        #e5e5e5;
+  --text-link-visited:#6a6a6a;
+  --border-soft:      rgba(255,255,255,0.08);
+  --border-card:      rgba(255,255,255,0.05);
+}
+
+/* ── Font + width variants ───────────────────────────────── */
+
+html.lens-font-small  { --fs-title: 13px; --fs-meta: 11px; --fs-comment: 13px; }
+html.lens-font-medium { --fs-title: 15px; --fs-meta: 12px; --fs-comment: 14px; }
+html.lens-font-large  { --fs-title: 17px; --fs-meta: 13px; --fs-comment: 15px; }
+
+html.lens-width-normal #hnmain { max-width: 920px !important; }
+html.lens-width-wide   #hnmain { max-width: 1240px !important; }
+
+/* ── Base body and main container ─────────────────────────── */
+
+html.lens-on body {
+  background: var(--bg-body) !important;
+  color: var(--text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif !important;
+}
+
+html.lens-on #hnmain {
+  background: var(--bg-main) !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+html.lens-on #hnmain > tbody > tr > td {
+  padding: 0 24px !important;
+}
+
+html.lens-on table {
+  border-collapse: separate !important;
+}
+
+/* ── Top header bar ──────────────────────────────────────── */
+
+html.lens-on td[bgcolor="#ff6600"],
+html.lens-on .pagetop {
+  background: var(--bg-header) !important;
+  padding: 10px 14px !important;
+}
+
+html.lens-on .pagetop,
+html.lens-on .pagetop a,
+html.lens-on .pagetop a:link,
+html.lens-on .pagetop a:visited {
+  color: #ffffff !important;
+}
+
+html.lens-on .hnname a {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* ── Frontpage post rows ──────────────────────────────────── */
+
+html.lens-on tr.athing,
+html.lens-on tr.athing + tr {
+  background: transparent !important;
+}
+
+html.lens-on tr.athing > td {
+  vertical-align: top !important;
+  padding-top: 6px !important;
+  padding-bottom: 0 !important;
+}
+
+html.lens-on tr.athing + tr > td {
+  padding-top: 2px !important;
+  padding-bottom: 0 !important;
+}
+
+/* Separator between posts (subtle hairline in light, more visible in dark) */
+html.lens-on tr.athing + tr + tr.spacer {
+  height: 14px !important;
+  border-bottom: 1px solid var(--border-card) !important;
+}
+
+html.lens-compact tr.athing + tr + tr.spacer {
+  height: 6px !important;
+}
+
+/* Rank number */
+html.lens-on .rank {
+  color: var(--text-meta) !important;
+  font-size: var(--fs-meta) !important;
+  font-weight: 600 !important;
+  min-width: 20px;
+  display: inline-block;
+}
+
+/* Title text */
+html.lens-on .titleline {
+  display: inline;
+}
+
+html.lens-on .titleline > a:first-child {
+  color: var(--text-link) !important;
+  font-size: var(--fs-title) !important;
+  line-height: 1.45 !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+html.lens-on .titleline > a:first-child:hover {
+  color: var(--hn-orange) !important;
+}
+
+html.lens-on .titleline > a:visited {
+  color: var(--text-link-visited) !important;
+}
+
+html.lens-on .sitebit,
+html.lens-on .sitebit a,
+html.lens-on .sitestr {
+  color: var(--text-meta) !important;
+  font-size: calc(var(--fs-meta) - 1px) !important;
+}
+
+/* Subtext line (points, user, hide, comments) */
+html.lens-on .subtext {
+  color: var(--text-meta) !important;
+  font-size: var(--fs-meta) !important;
+  line-height: 1.8 !important;
+}
+
+html.lens-on .subtext a,
+html.lens-on .subtext a:link,
+html.lens-on .subtext a:visited {
+  color: var(--text-meta) !important;
+}
+
+html.lens-on .subtext a:hover {
+  color: var(--hn-orange) !important;
+}
+
+/* Points as chip */
+html.lens-on .score {
+  display: inline-block;
+  background: var(--bg-chip);
+  color: var(--text-secondary) !important;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* User name slightly emphasized */
+html.lens-on .hnuser {
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+/* ── Post-type badges (real spans, clickable to open side panel) ── */
+
+html.lens-on .lens-type-badge,
+html.lens-on .lens-pin-badge {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-right: 6px;
+  vertical-align: 2px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.12s ease, filter 0.15s, box-shadow 0.15s;
+  text-decoration: none !important;
+}
+
+html.lens-on .lens-type-badge:hover,
+html.lens-on .lens-pin-badge:hover {
+  transform: translateY(-1px) scale(1.04);
+  filter: brightness(1.1);
+}
+
+html.lens-on .lens-type-badge:active,
+html.lens-on .lens-pin-badge:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Show only types whose highlight is enabled */
+html:not(.lens-hl-show)   .lens-tb-show,
+html:not(.lens-hl-ask)    .lens-tb-ask,
+html:not(.lens-hl-launch) .lens-tb-launch {
+  display: none;
+}
+
+html.lens-on .lens-tb-show {
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  box-shadow: 0 1px 4px rgba(22, 163, 74, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+html.lens-on .lens-tb-ask {
+  background: linear-gradient(135deg, #fb923c, #c2410c);
+  box-shadow: 0 1px 4px rgba(234, 88, 12, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+html.lens-on .lens-tb-launch {
+  background: linear-gradient(135deg, #a78bfa, #6d28d9);
+  box-shadow: 0 1px 4px rgba(139, 92, 246, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+html.lens-on .lens-tb-tell {
+  background: linear-gradient(135deg, #22d3ee, #0e7490);
+  box-shadow: 0 1px 4px rgba(8, 145, 178, 0.4);
+}
+
+html.lens-on .lens-tb-poll {
+  background: linear-gradient(135deg, #f472b6, #be185d);
+  box-shadow: 0 1px 4px rgba(219, 39, 119, 0.4);
+}
+
+/* Subtle row tint for type posts */
+html.lens-hl-show tr.athing.lens-show > td,
+html.lens-hl-show tr.athing.lens-show + tr > td {
+  background: rgba(22, 163, 74, 0.04) !important;
+}
+
+html.lens-hl-ask tr.athing.lens-ask > td,
+html.lens-hl-ask tr.athing.lens-ask + tr > td {
+  background: rgba(234, 88, 12, 0.04) !important;
+}
+
+html.lens-hl-launch tr.athing.lens-launch > td,
+html.lens-hl-launch tr.athing.lens-launch + tr > td {
+  background: rgba(139, 92, 246, 0.05) !important;
+}
+
+html.lens-theme-dark.lens-hl-show tr.athing.lens-show > td,
+html.lens-theme-dark.lens-hl-show tr.athing.lens-show + tr > td {
+  background: rgba(34, 197, 94, 0.06) !important;
+}
+
+html.lens-theme-dark.lens-hl-ask tr.athing.lens-ask > td,
+html.lens-theme-dark.lens-hl-ask tr.athing.lens-ask + tr > td {
+  background: rgba(251, 146, 60, 0.06) !important;
+}
+
+html.lens-theme-dark.lens-hl-launch tr.athing.lens-launch > td,
+html.lens-theme-dark.lens-hl-launch tr.athing.lens-launch + tr > td {
+  background: rgba(167, 139, 250, 0.06) !important;
+}
+
+/* ── Pin button (injected into subtext) ──────────────────── */
+
+html.lens-on .lens-pin {
+  color: var(--text-meta) !important;
+  text-decoration: none !important;
+  font-size: var(--fs-meta) !important;
+  transition: transform 0.12s ease, filter 0.15s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+html.lens-on .lens-pin .lens-pin-icon {
+  display: inline-block;
+  filter: grayscale(1) opacity(0.5);
+  transition: filter 0.15s;
+}
+
+html.lens-on .lens-pin:hover .lens-pin-icon {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.15);
+}
+
+html.lens-on .lens-pin.pinned .lens-pin-icon {
+  filter: grayscale(0) opacity(1) drop-shadow(0 0 3px rgba(255, 102, 0, 0.5));
+  transform: rotate(-15deg);
+}
+
+/* ── Zebra striping (alternating row background for plain posts) ──
+ * Applies only to posts WITHOUT a type tint and not pinned, to avoid
+ * stacking with the type/pin colors. Uses --lens-zebra-color set by JS.
+ */
+html.lens-on.lens-zebra tr.athing.lens-zebra-even:not(.lens-show):not(.lens-ask):not(.lens-launch):not(.lens-tell):not(.lens-poll):not(.lens-pinned) > td,
+html.lens-on.lens-zebra tr.athing.lens-zebra-even:not(.lens-show):not(.lens-ask):not(.lens-launch):not(.lens-tell):not(.lens-poll):not(.lens-pinned) + tr > td {
+  background: var(--lens-zebra-color, rgba(255, 136, 0, 0.06)) !important;
+}
+
+/* ── PIN badge (injected before titleline when post is pinned) ── */
+
+html.lens-on .lens-pin-badge {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-right: 6px;
+  vertical-align: 2px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  background: linear-gradient(135deg, #ff9447, #ff6600);
+  box-shadow: 0 1px 4px rgba(255, 102, 0, 0.55), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+/* Subtle row tint for pinned posts (lighter than type tint) */
+html.lens-on tr.athing.lens-pinned > td,
+html.lens-on tr.athing.lens-pinned + tr > td {
+  background: rgba(255, 102, 0, 0.045) !important;
+}
+
+/* ── Per-post translate button (inline 🌐) ───────────────── */
+html.lens-on .lens-trans-btn {
+  display: inline-block;
+  margin-left: 6px;
+  background: transparent;
+  border: none;
+  padding: 0 2px;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  filter: grayscale(1) opacity(0.4);
+  transition: filter 0.15s, transform 0.12s;
+  vertical-align: 1px;
+}
+
+html.lens-on .lens-trans-btn:hover {
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.15);
+}
+
+/* ── "Translate all" bar above the post list ─────────────── */
+html.lens-on .lens-translate-bar {
+  margin: 8px 0 6px;
+  padding: 0;
+}
+
+html.lens-on .lens-translate-all {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+html.lens-on .lens-translate-all:hover {
+  border-color: var(--hn-orange);
+  color: var(--hn-orange);
+}
+
+html.lens-on .lens-translate-all.active {
+  background: rgba(255, 102, 0, 0.08);
+  border-color: rgba(255, 102, 0, 0.35);
+  color: var(--hn-orange);
+}
+
+html.lens-on .lens-translate-all.loading {
+  cursor: wait;
+}
+
+html.lens-on .lens-translate-all .ti {
+  font-size: 13px;
+}
+
+/* ── Tag chips on pinned posts (propagated from side panel) ── */
+html.lens-on .lens-tags-inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: 1px;
+}
+
+html.lens-on .lens-tag-chip {
+  --tag-hue: 25;
+  display: inline-block;
+  background: hsla(var(--tag-hue), 70%, 50%, 0.13);
+  color: hsl(var(--tag-hue), 65%, 38%);
+  border: 1px solid hsla(var(--tag-hue), 70%, 50%, 0.32);
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.12s;
+  line-height: 1.4;
+}
+
+html.lens-on .lens-tag-chip:hover {
+  background: hsla(var(--tag-hue), 70%, 50%, 0.25);
+  transform: translateY(-1px);
+}
+
+html.lens-theme-dark .lens-tag-chip {
+  color: hsl(var(--tag-hue), 75%, 68%);
+}
+
+/* ── Translation indicator on post titles ────────────────── */
+html.lens-on .lens-trans-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #ff6600;
+  background: rgba(255, 102, 0, 0.1);
+  border: 1px solid rgba(255, 102, 0, 0.3);
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: 1px;
+  transition: background 0.12s, opacity 0.12s, transform 0.12s;
+  text-decoration: none !important;
+}
+
+html.lens-on .lens-trans-badge:hover {
+  background: rgba(255, 102, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+html.lens-theme-dark tr.athing.lens-pinned > td,
+html.lens-theme-dark tr.athing.lens-pinned + tr > td {
+  background: rgba(255, 102, 0, 0.07) !important;
+}
+
+/* ── Visited posts ───────────────────────────────────────── */
+
+html.lens-mark-visited tr.athing.lens-visited .titleline > a:first-child {
+  color: var(--text-link-visited) !important;
+  font-weight: 400 !important;
+}
+
+html.lens-mark-visited tr.athing.lens-visited + tr {
+  opacity: 0.55;
+}
+
+/* ── Item page (story details + comments) ─────────────────── */
+
+/* Story header */
+html.lens-on .fatitem .title .titleline > a:first-child {
+  font-size: calc(var(--fs-title) + 3px) !important;
+  font-weight: 600 !important;
+}
+
+html.lens-on .toptext {
+  color: var(--text-primary) !important;
+  font-size: var(--fs-comment) !important;
+  line-height: 1.65 !important;
+  margin: 10px 0 !important;
+  padding: 12px 14px !important;
+  background: var(--bg-card) !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--border-card) !important;
+}
+
+/* Comment input form */
+html.lens-on textarea {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 4px !important;
+  padding: 8px !important;
+  font-family: inherit !important;
+  font-size: var(--fs-comment) !important;
+}
+
+html.lens-on input[type="submit"] {
+  background: var(--hn-orange) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 6px 14px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+/* ── Comments ────────────────────────────────────────────── */
+
+html.lens-on .comment-tree {
+  margin-top: 8px !important;
+}
+
+html.lens-on tr.comtr {
+  background: transparent !important;
+}
+
+html.lens-on tr.comtr > td {
+  padding: 8px 0 !important;
+}
+
+html.lens-on .comhead {
+  font-size: var(--fs-meta) !important;
+  color: var(--text-meta) !important;
+  line-height: 1.6 !important;
+  margin-bottom: 4px !important;
+}
+
+html.lens-on .comhead a,
+html.lens-on .comhead a:link,
+html.lens-on .comhead a:visited {
+  color: var(--text-meta) !important;
+}
+
+html.lens-on .comhead .hnuser {
+  color: var(--text-secondary) !important;
+  font-weight: 600 !important;
+}
+
+html.lens-on .comhead a:hover {
+  color: var(--hn-orange) !important;
+}
+
+html.lens-on .comment,
+html.lens-on .commtext {
+  font-size: var(--fs-comment) !important;
+  color: var(--text-primary) !important;
+  line-height: 1.6 !important;
+}
+
+html.lens-on .commtext a,
+html.lens-on .commtext a:link {
+  color: var(--hn-orange) !important;
+  text-decoration: none !important;
+}
+
+html.lens-on .commtext a:hover {
+  text-decoration: underline !important;
+}
+
+html.lens-on .commtext a:visited {
+  color: #a85100 !important;
+}
+
+html.lens-theme-dark .commtext a:visited {
+  color: #c9803d !important;
+}
+
+/* Reply link */
+html.lens-on .reply {
+  margin-top: 6px !important;
+  font-size: var(--fs-meta) !important;
+}
+
+html.lens-on .reply a {
+  color: var(--text-meta) !important;
+}
+
+html.lens-on .reply a:hover {
+  color: var(--hn-orange) !important;
+}
+
+/* ── Original Poster (OP) highlight in comments ───────────── */
+
+html.lens-on tr.comtr.lens-op > td {
+  position: relative;
+}
+
+html.lens-on tr.comtr.lens-op .commtext {
+  background: var(--op-bg) !important;
+  border-left: 3px solid var(--op-border) !important;
+  padding: 6px 10px !important;
+  border-radius: 0 4px 4px 0 !important;
+}
+
+html.lens-on tr.comtr.lens-op .comhead .hnuser::after {
+  content: "OP";
+  display: inline-block;
+  margin-left: 6px;
+  background: var(--hn-orange);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+/* ── Code blocks in comments and posts ────────────────────── */
+
+html.lens-on pre {
+  background: var(--bg-code) !important;
+  border: 1px solid var(--border-card) !important;
+  border-radius: 4px !important;
+  padding: 10px 12px !important;
+  margin: 8px 0 !important;
+  font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace !important;
+  font-size: calc(var(--fs-comment) - 1px) !important;
+  line-height: 1.45 !important;
+  white-space: pre-wrap !important;
+  overflow-x: auto !important;
+  color: var(--text-primary) !important;
+}
+
+html.lens-on code {
+  background: var(--bg-code) !important;
+  padding: 1px 5px !important;
+  border-radius: 3px !important;
+  font-family: "SFMono-Regular", "Consolas", monospace !important;
+  font-size: 0.92em !important;
+  color: var(--text-primary) !important;
+}
+
+/* Quote blocks (HN uses italics+indent for replies) */
+html.lens-on .commtext p i {
+  color: var(--text-secondary) !important;
+  border-left: 2px solid var(--border-soft) !important;
+  padding-left: 10px !important;
+  margin-left: 0 !important;
+  display: block !important;
+  font-style: normal !important;
+}
+
+/* ── Footer (yclinks) ─────────────────────────────────────── */
+
+html.lens-on .yclinks,
+html.lens-on .yclinks a {
+  color: var(--text-meta) !important;
+  font-size: var(--fs-meta) !important;
+}
+
+html.lens-on hr {
+  border: none !important;
+  border-top: 1px solid var(--border-card) !important;
+  margin: 16px 0 !important;
+}
+
+/* ── Misc cleanups ────────────────────────────────────────── */
+
+html.lens-theme-dark input[type="text"],
+html.lens-theme-dark input[type="password"] {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+}
+
+/* Search bar at the bottom of frontpage */
+html.lens-on .yclinks form input {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+}

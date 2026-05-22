@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <header class="header">
+    <img class="header-logo-img" src="icons/icontop.png" alt="NODUS HN Radar" />
+    <a class="header-link" href="https://news.ycombinator.com/" target="_blank" rel="noopener noreferrer" data-i18n-title="app.openHN" title="Open Hacker News">↗</a>
+  </header>
+
+  <!-- Master toggle -->
+  <section class="master">
+    <label class="toggle">
+      <input type="checkbox" id="enabled" />
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span class="toggle-label" data-i18n="master.enabled">Lens enabled</span>
+    </label>
+    <p class="hint" data-i18n="master.hint">Visual reading layer on news.ycombinator.com</p>
+  </section>
+
+  <!-- Pinned -->
+  <section class="panel" data-panel-key="pinned">
+    <div class="panel-head" data-collapsible>
+      <span class="panel-title">
+        <span class="pin-emoji">📌</span>
+        <span data-i18n="panels.pinned">Pinned</span>
+      </span>
+      <span class="panel-head-right">
+        <span class="panel-meta" id="pinned-count">0</span>
+        <span class="panel-chevron">▾</span>
+      </span>
+    </div>
+    <div class="panel-body">
+      <div id="pinned-empty" class="pinned-empty">
+        <p data-i18n="pinned.empty">No pinned posts.</p>
+        <p class="pinned-hint" data-i18n="pinned.hint">Click the 📌 next to any post on Hacker News to track it here.</p>
+      </div>
+      <div id="pinned-list" class="pinned-list" hidden></div>
+    </div>
+  </section>
+
+  <!-- Radar -->
+  <section class="panel" data-panel-key="radar">
+    <div class="panel-head" data-collapsible>
+      <span class="panel-title radar-title">
+        <span class="radar-icon">
+          <span class="radar-dot"></span>
+        </span>
+        <span class="radar-title-text" data-i18n="panels.radar">Radar</span>
+      </span>
+      <span class="panel-head-right">
+        <button class="radar-refresh" id="radar-refresh" type="button" hidden data-i18n-title="radar.refresh" title="Refresh">↻</button>
+        <span class="panel-meta" id="radar-status" data-i18n="panels.comingSoon">coming soon</span>
+        <span class="panel-chevron">▾</span>
+      </span>
+    </div>
+    <div class="panel-body">
+      <div class="radar-tabs" id="radar-tabs">
+        <button class="radar-tab active" data-cat="top"  data-i18n="radar.sources.top">Top</button>
+        <button class="radar-tab"        data-cat="show" data-i18n="radar.sources.show">Show HN</button>
+        <button class="radar-tab"        data-cat="ask"  data-i18n="radar.sources.ask">Ask HN</button>
+        <button class="radar-tab"        data-cat="best" data-i18n="radar.sources.best">Best</button>
+      </div>
+      <div id="radar-content"></div>
+    </div>
+  </section>
+
+  <!-- Lens settings (collapsed by default) -->
+  <section class="panel collapsed" id="settings-panel" data-panel-key="settings">
+    <div class="panel-head" data-collapsible>
+      <span class="panel-title" data-i18n="panels.settings">Lens settings</span>
+      <span class="panel-chevron">▾</span>
+    </div>
+    <div class="panel-body">
+      <div class="row-group">
+        <h4 data-i18n="settings.language">Interface language</h4>
+        <select id="uiLanguage" class="translate-select"></select>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.theme">Theme</h4>
+        <div class="seg" data-key="theme">
+          <button data-value="auto"  data-i18n="settings.themeAuto">Auto</button>
+          <button data-value="light" data-i18n="settings.themeLight">Light</button>
+          <button data-value="dark"  data-i18n="settings.themeDark">Dark</button>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.fontSize">Font size</h4>
+        <div class="seg" data-key="fontSize">
+          <button data-value="small"  data-i18n="settings.sizeSmall">Small</button>
+          <button data-value="medium" data-i18n="settings.sizeMedium">Medium</button>
+          <button data-value="large"  data-i18n="settings.sizeLarge">Large</button>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.width">Reading width</h4>
+        <div class="seg" data-key="width">
+          <button data-value="normal" data-i18n="settings.widthNormal">Normal</button>
+          <button data-value="wide"   data-i18n="settings.widthWide">Wide</button>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.behavior">Behavior</h4>
+        <div class="check-list">
+          <label class="check"><input type="checkbox" id="compact" /> <span data-i18n="settings.compact">Compact rows</span></label>
+          <label class="check"><input type="checkbox" id="markVisited" /> <span data-i18n="settings.grayVisited">Gray out visited posts</span></label>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.mutedDomains">Muted domains</h4>
+        <p class="muted-hint" data-i18n="settings.mutedDomainsHint">One per line. Posts from these domains will be hidden in Radar.</p>
+        <textarea id="mutedDomains" class="muted-textarea" rows="3" data-i18n-placeholder="settings.mutedDomainsPh" placeholder="e.g. medium.com&#10;x.com"></textarea>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.zebraTitle">Alternating rows</h4>
+        <div class="check-list">
+          <label class="check"><input type="checkbox" id="zebraEnabled" /> <span data-i18n="settings.zebraEnable">Tint every other post</span></label>
+        </div>
+        <div class="zebra-color-row">
+          <label for="zebraColor" class="zebra-color-label" data-i18n="settings.zebraColor">Color</label>
+          <input type="color" id="zebraColor" class="zebra-color-input" value="#ff8800" />
+        </div>
+        <div class="zebra-intensity-row">
+          <label for="zebraIntensity" class="zebra-color-label" data-i18n="settings.zebraIntensity">Intensity</label>
+          <input type="range" id="zebraIntensity" class="zebra-range" min="5" max="40" step="1" value="12" />
+          <span class="zebra-intensity-value" id="zebraIntensityValue">12%</span>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <h4 data-i18n="settings.highlights">Highlight post types</h4>
+        <div class="check-list">
+          <label class="check"><input type="checkbox" id="highlightShow" /> <span class="dot dot-show"></span> <span data-i18n="settings.showHN">Show HN</span></label>
+          <label class="check"><input type="checkbox" id="highlightAsk" /> <span class="dot dot-ask"></span> <span data-i18n="settings.askHN">Ask HN</span></label>
+          <label class="check"><input type="checkbox" id="highlightLaunch" /> <span class="dot dot-launch"></span> <span data-i18n="settings.launchHN">Launch HN</span></label>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <h4><span data-i18n="settings.translation">Translation</span> <span class="tag-beta" data-i18n="settings.beta">beta</span></h4>
+        <p class="translate-scope-hint" data-i18n="settings.transScope">These settings affect content inside this panel only. To translate posts on the HN page, use the 🌐 buttons there.</p>
+        <div class="check-list">
+          <label class="check"><input type="checkbox" id="autoTranslatePinned" /> <span data-i18n="settings.autoTransPinned">Translate pinned post titles</span></label>
+          <label class="check"><input type="checkbox" id="autoTranslate" /> <span data-i18n="settings.autoTransComments">Translate comment previews</span></label>
+        </div>
+        <div class="translate-row">
+          <label for="translateTo" class="translate-label" data-i18n="settings.targetLang">Target language (shared)</label>
+          <select id="translateTo" class="translate-select">
+            <option value="" data-i18n="settings.targetAuto">Auto (browser)</option>
+            <option value="en">English</option>
+            <option value="pt">Português</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="zh">中文</option>
+            <option value="ru">Русский</option>
+            <option value="ar">العربية</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </div>
+        <p class="translate-hint" id="translate-hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-brand" data-i18n="app.brand">Made by NODUS</span>
+    <span class="version">v0.15.2</span>
+  </footer>
+
+  <script src="sidepanel.js" type="module"></script>
+</body>
+</html>
