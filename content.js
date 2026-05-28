@@ -662,9 +662,16 @@
       const link = e.target.closest(".titleline > a, .subtext a[href^='item?']");
       if (!link) return;
 
-      // Find the post row
-      const row = link.closest("tr.athing") ||
-                  document.querySelector(`tr.athing#${(link.getAttribute("href") || "").match(/id=(\d+)/)?.[1]}`);
+      // Find the post row.
+      // NOTE: CSS ID selectors must not start with a digit, but HN post IDs are
+      // numeric (e.g. "48265645"). Using `querySelector('#48265645')` throws
+      // SyntaxError. document.getElementById() has no such restriction.
+      let row = link.closest("tr.athing");
+      if (!row) {
+        const hrefId = (link.getAttribute("href") || "").match(/id=(\d+)/)?.[1];
+        const candidate = hrefId ? document.getElementById(hrefId) : null;
+        if (candidate?.classList?.contains("athing")) row = candidate;
+      }
       if (!row) return;
 
       const id = row.id;
