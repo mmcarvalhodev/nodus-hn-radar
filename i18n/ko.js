@@ -1,5 +1,5 @@
 export default {
-  app: { name: "NODUS HN Radar", brand: "NODUS 제작", openHN: "Hacker News 열기" },
+  app: { name: "NODUS HN Radar", brand: "NODUS 제작", openHN: "Hacker News 열기", openSite: "HN Radar 웹사이트 열기" },
   master: { enabled: "Lens 사용", hint: "news.ycombinator.com 가독성 레이어" },
   panels: { pinned: "고정됨", radar: "레이더", settings: "Lens 설정", comingSoon: "곧 공개" },
   pinned: {

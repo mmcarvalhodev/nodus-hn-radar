@@ -1,5 +1,5 @@
 export default {
-  app: { name: "NODUS HN Radar", brand: "Hecho por NODUS", openHN: "Abrir Hacker News" },
+  app: { name: "NODUS HN Radar", brand: "Hecho por NODUS", openHN: "Abrir Hacker News", openSite: "Abrir sitio del HN Radar" },
   master: { enabled: "Lens activado", hint: "Capa de lectura visual en news.ycombinator.com" },
   panels: { pinned: "Fijados", radar: "Radar", settings: "Configuración del Lens", comingSoon: "pronto" },
   pinned: {

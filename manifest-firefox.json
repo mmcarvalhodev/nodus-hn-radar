@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "NODUS HN Radar",
-  "version": "0.15.3",
+  "version": "0.15.4",
   "description": "Same Hacker News. Less eye pain. More signal. A reading layer with dark mode, visited tracking and post-type highlighting.",
   "browser_specific_settings": {
     "gecko": {

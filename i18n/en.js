@@ -2,7 +2,8 @@ export default {
   app: {
     name: "NODUS HN Radar",
     brand: "Made by NODUS",
-    openHN: "Open Hacker News"
+    openHN: "Open Hacker News",
+    openSite: "Open HN Radar website"
   },
   master: {
     enabled: "Lens enabled",

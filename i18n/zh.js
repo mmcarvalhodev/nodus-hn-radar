@@ -1,5 +1,5 @@
 export default {
-  app: { name: "NODUS HN Radar", brand: "由 NODUS 制作", openHN: "打开 Hacker News" },
+  app: { name: "NODUS HN Radar", brand: "由 NODUS 制作", openHN: "打开 Hacker News", openSite: "打开 HN Radar 网站" },
   master: { enabled: "Lens 已启用", hint: "news.ycombinator.com 的视觉阅读层" },
   panels: { pinned: "已固定", radar: "雷达", settings: "Lens 设置", comingSoon: "即将推出" },
   pinned: {
