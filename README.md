@@ -3,7 +3,7 @@
 **Same Hacker News. Less eye pain. More signal.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-0.16.6-green.svg)](https://github.com/mmcarvalhodev/nodus-hn-radar)
+[![Version](https://img.shields.io/badge/Version-0.16.7-green.svg)](https://github.com/mmcarvalhodev/nodus-hn-radar)
 [![Platform](https://img.shields.io/badge/Platform-Chrome%20%7C%20Firefox%20%7C%20Edge%20%7C%20Brave-orange.svg)](https://nodus-ai.app/hn-radar)
 [![Privacy](https://img.shields.io/badge/Local--first-✓-brightgreen.svg)](https://nodus-ai.app/hn-radar-privacy)
 

@@ -992,21 +992,26 @@ function renderBellDropdown(unread) {
   const body = $("bell-dropdown-body");
   if (!body) return;
 
-  // CTA inline at the very top of the expanded bell. Two-slide ticker:
-  // daily-rotating text pitch ↔ NODUS-AI brand banner. Animation is
-  // driven by startCtaCycle() which toggles the .frame-text / .frame-image
-  // class on every CTA in sync.
-  const ctaKey = pickDailyPitchKey();
+  // CTA inline at the very top of the expanded bell. Same 4-slide ticker
+  // as the sticky footer — 3 daily-rotating pitches + the NODUS-AI brand
+  // banner. The global ticker state syncs both CTAs.
+  const keys = getDailyPitchKeys();
+  const textSlide = (i) => `
+    <span class="bell-cta-slide slide-${i}">
+      <span class="bell-cta-mark">●</span>
+      <span class="bell-cta-text" data-i18n="${keys[i]}">${escapeHtml(tr(keys[i]))}</span>
+      <span class="bell-cta-arrow">↗</span>
+    </span>`;
   const ctaHtml = `
-    <a class="bell-cta frame-text" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
+    <a class="bell-cta frame-0" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
        data-i18n-title="cta.lostAITitle" title="${escapeAttr(tr("cta.lostAITitle"))}">
-      <span class="bell-cta-slide slide-text">
-        <span class="bell-cta-mark">●</span>
-        <span class="bell-cta-text" data-i18n="${ctaKey}">${escapeHtml(tr(ctaKey))}</span>
-        <span class="bell-cta-arrow">↗</span>
-      </span>
-      <span class="bell-cta-slide slide-image">
-        <img class="bell-cta-img" src="icons/nodus-ai-banner.png" alt="NODUS AI" />
+      ${textSlide(0)}
+      ${textSlide(1)}
+      ${textSlide(2)}
+      <span class="bell-cta-slide slide-3 slide-brand">
+        <img class="nodus-mark-img" src="icons/nodus-mark.png" alt="" />
+        <span class="nodus-brand-sep"></span>
+        <span class="nodus-brand-text"><span class="nodus-brand-name">NODUS</span><span class="nodus-brand-tag">-AI</span></span>
       </span>
     </a>`;
 
@@ -1323,32 +1328,50 @@ function pickDailyPitchKey() {
 }
 
 function applyCtaPitch() {
-  const el = document.querySelector(".nodus-cta-text");
-  if (!el) return;
-  const key = pickDailyPitchKey();
-  el.setAttribute("data-i18n", key);
-  const text = tr(key);
-  // Fallback to the legacy static pitch if the daily key is missing in
-  // the current locale (shouldn't happen, but defensive)
-  el.textContent = (text && text !== key) ? text : tr("cta.lostAIPitch");
+  // Sets the data-i18n and textContent for each of the 3 text slides
+  // (slide-0, slide-1, slide-2) on the sticky footer CTA. The bell CTA
+  // renders fresh each open so it picks up daily keys directly.
+  const keys = getDailyPitchKeys();
+  for (let i = 0; i < keys.length; i++) {
+    const el = document.querySelector(`.nodus-cta .slide-${i} .nodus-cta-text`);
+    if (!el) continue;
+    el.setAttribute("data-i18n", keys[i]);
+    const text = tr(keys[i]);
+    el.textContent = (text && text !== keys[i]) ? text : tr("cta.lostAIPitch");
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
-// CTA ticker — alternates the text pitch and the NODUS-AI banner
-// every CTA_CYCLE_MS. Drives both the sticky footer and the bell CTA
-// in sync via the .frame-text / .frame-image class on every .nodus-cta
-// or .bell-cta element.
+// CTA ticker — 4-state rotation, 5s per state, 20s full cycle.
+//   States 0/1/2: 3 daily-rotating text pitches (shift-by-1 per day)
+//   State 3:     NODUS-AI brand slide (icon + styled HTML text)
+// Drives both the sticky footer and the bell CTA in sync via the
+// .frame-N class on every .nodus-cta / .bell-cta element.
 // ═══════════════════════════════════════════════════════════
 const CTA_CYCLE_MS = 5000;
-let _ctaFrame = 0; // 0 = text, 1 = image
+const CTA_FRAME_COUNT = 4;
+const PITCHES_PER_DAY = 3;
+let _ctaFrame = 0;
 let _ctaCycleTimer = null;
 
+// Returns the 3 i18n pitch keys to show today, picked deterministically
+// from the day-of-epoch with a shift-by-1 each day — so two consecutive
+// days share 2 pitches and rotate in 1 fresh one.
+function getDailyPitchKeys(count = PITCHES_PER_DAY) {
+  const dayIndex = Math.floor(Date.now() / 86400000);
+  const keys = [];
+  for (let i = 0; i < count; i++) {
+    const n = ((dayIndex + i) % CTA_PITCH_COUNT) + 1;
+    keys.push(`cta.pitch${String(n).padStart(2, "0")}`);
+  }
+  return keys;
+}
+
 function applyCtaFrameToAll() {
-  const onCls  = _ctaFrame === 0 ? "frame-text"  : "frame-image";
-  const offCls = _ctaFrame === 0 ? "frame-image" : "frame-text";
   document.querySelectorAll(".nodus-cta, .bell-cta").forEach((el) => {
-    el.classList.remove(offCls);
-    el.classList.add(onCls);
+    for (let i = 0; i < CTA_FRAME_COUNT; i++) {
+      el.classList.toggle(`frame-${i}`, i === _ctaFrame);
+    }
   });
 }
 
@@ -1356,7 +1379,7 @@ function startCtaCycle() {
   stopCtaCycle();
   applyCtaFrameToAll();
   _ctaCycleTimer = setInterval(() => {
-    _ctaFrame = 1 - _ctaFrame;
+    _ctaFrame = (_ctaFrame + 1) % CTA_FRAME_COUNT;
     applyCtaFrameToAll();
   }, CTA_CYCLE_MS);
 }
