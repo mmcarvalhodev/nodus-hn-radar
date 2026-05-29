@@ -156,14 +156,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ── Watch (Phase 3a) ────
   initWatch();
 
-  // ── NODUS CTA strip — daily-rotating pitch ────
+  // ── NODUS CTA strip — daily-rotating pitch + ticker animation ────
   applyCtaPitch();
+  startCtaCycle();
 
   // Stop polling when the panel is hidden — Chrome side panels don't fire
   // beforeunload reliably, so we use visibilitychange as a defensive stop.
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") stopWatcher();
-    else                                       startWatcher();
+    if (document.visibilityState === "hidden") {
+      stopWatcher();
+      stopCtaCycle();
+    } else {
+      startWatcher();
+      startCtaCycle();
+    }
   });
 });
 
@@ -986,17 +992,22 @@ function renderBellDropdown(unread) {
   const body = $("bell-dropdown-body");
   if (!body) return;
 
-  // CTA inline at the very top of the expanded bell — high-attention spot
-  // when the user is actively reviewing notifications. Same daily-rotating
-  // pitch as the sticky footer, so the same brand message stays consistent
-  // within a day.
+  // CTA inline at the very top of the expanded bell. Two-slide ticker:
+  // daily-rotating text pitch ↔ NODUS-AI brand banner. Animation is
+  // driven by startCtaCycle() which toggles the .frame-text / .frame-image
+  // class on every CTA in sync.
   const ctaKey = pickDailyPitchKey();
   const ctaHtml = `
-    <a class="bell-cta" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
+    <a class="bell-cta frame-text" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
        data-i18n-title="cta.lostAITitle" title="${escapeAttr(tr("cta.lostAITitle"))}">
-      <span class="bell-cta-mark">●</span>
-      <span class="bell-cta-text" data-i18n="${ctaKey}">${escapeHtml(tr(ctaKey))}</span>
-      <span class="bell-cta-arrow">↗</span>
+      <span class="bell-cta-slide slide-text">
+        <span class="bell-cta-mark">●</span>
+        <span class="bell-cta-text" data-i18n="${ctaKey}">${escapeHtml(tr(ctaKey))}</span>
+        <span class="bell-cta-arrow">↗</span>
+      </span>
+      <span class="bell-cta-slide slide-image">
+        <img class="bell-cta-img" src="icons/nodus-ai-banner.png" alt="NODUS AI" />
+      </span>
     </a>`;
 
   if (!unread || unread.length === 0) {
@@ -1029,6 +1040,9 @@ function renderBellDropdown(unread) {
     </div>`);
   }
   body.innerHTML = parts.join("");
+  // Sync the just-rendered bell CTA with the current ticker frame state
+  // so it matches whatever the sticky footer CTA is showing right now.
+  applyCtaFrameToAll();
 
   // Click on the match link: remove from unread + let the <a> open the HN tab
   body.querySelectorAll(".bell-match-link").forEach((a) => {
@@ -1317,4 +1331,37 @@ function applyCtaPitch() {
   // Fallback to the legacy static pitch if the daily key is missing in
   // the current locale (shouldn't happen, but defensive)
   el.textContent = (text && text !== key) ? text : tr("cta.lostAIPitch");
+}
+
+// ═══════════════════════════════════════════════════════════
+// CTA ticker — alternates the text pitch and the NODUS-AI banner
+// every CTA_CYCLE_MS. Drives both the sticky footer and the bell CTA
+// in sync via the .frame-text / .frame-image class on every .nodus-cta
+// or .bell-cta element.
+// ═══════════════════════════════════════════════════════════
+const CTA_CYCLE_MS = 5000;
+let _ctaFrame = 0; // 0 = text, 1 = image
+let _ctaCycleTimer = null;
+
+function applyCtaFrameToAll() {
+  const onCls  = _ctaFrame === 0 ? "frame-text"  : "frame-image";
+  const offCls = _ctaFrame === 0 ? "frame-image" : "frame-text";
+  document.querySelectorAll(".nodus-cta, .bell-cta").forEach((el) => {
+    el.classList.remove(offCls);
+    el.classList.add(onCls);
+  });
+}
+
+function startCtaCycle() {
+  stopCtaCycle();
+  applyCtaFrameToAll();
+  _ctaCycleTimer = setInterval(() => {
+    _ctaFrame = 1 - _ctaFrame;
+    applyCtaFrameToAll();
+  }, CTA_CYCLE_MS);
+}
+
+function stopCtaCycle() {
+  if (_ctaCycleTimer) clearInterval(_ctaCycleTimer);
+  _ctaCycleTimer = null;
 }

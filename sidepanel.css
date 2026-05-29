@@ -1555,46 +1555,25 @@ body {
 
 /* CTA banner inside the bell — appears at the top of the expanded
    dropdown body, only visible while the bell is open. Uses the same
-   daily-rotating pitch as the sticky footer. */
+   daily-rotating pitch + ticker animation as the sticky footer. */
 .bell-cta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  position: relative;
+  display: block;
+  min-height: 40px;
   margin: 6px 14px 10px;
-  padding: 8px 12px;
   background: linear-gradient(90deg, #0a0a0a 0%, #131110 100%);
   border: 1px solid rgba(255, 102, 0, 0.18);
   border-radius: 5px;
-  color: #bbb;
-  font-size: 11.5px;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
 }
 .bell-cta:hover {
-  color: #fff;
   border-color: rgba(255, 102, 0, 0.5);
   background: linear-gradient(90deg, #0f0a05 0%, #1c1308 100%);
 }
-.bell-cta-mark {
-  color: #ff6600;
-  text-shadow: 0 0 6px rgba(255, 102, 0, 0.5);
-  font-size: 10px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-.bell-cta-text {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bell-cta-arrow {
-  color: #777;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-.bell-cta:hover .bell-cta-arrow { color: #ff6600; }
+.bell-cta:hover .slide-text { color: #fff; }
 .bell-dropdown-foot {
   border-top: 1px solid #1a1a1a;
   padding: 8px 14px;
@@ -1928,46 +1907,98 @@ body {
 }
 .watch-save-btn:hover { background: #ff8533; }
 
-/* ── NODUS CTA strip — sticky bottom of side panel ── */
+/* ── NODUS CTA strip — sticky bottom of side panel, animated ticker ── */
 .nodus-cta {
   position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
+  display: block;
+  min-height: 40px;
+  background: linear-gradient(90deg, #0a0a0a 0%, #131110 100%);
+  border-top: 1px solid #1a1a1a;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 50;
+  overflow: hidden;
+  transition: background 0.15s;
+}
+.nodus-cta:hover {
+  background: linear-gradient(90deg, #0f0a05 0%, #1c1308 100%);
+}
+
+/* Two-slide ticker: only one slide is "active" at a time. Inactive ones
+   slide off to the left while the new active slide slides in from the
+   right. */
+.nodus-cta-slide,
+.bell-cta-slide {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  background: linear-gradient(90deg, #0a0a0a 0%, #131110 100%);
-  border-top: 1px solid #1a1a1a;
+  padding: 0 14px;
   color: #aaa;
   font-size: 11.5px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.15s, background 0.15s;
-  flex-shrink: 0;
-  z-index: 50;
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
 }
-.nodus-cta:hover {
-  color: #fff;
-  background: linear-gradient(90deg, #0f0a05 0%, #1c1308 100%);
+.nodus-cta.frame-text .slide-text,
+.nodus-cta.frame-image .slide-image,
+.bell-cta.frame-text .slide-text,
+.bell-cta.frame-image .slide-image {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
 }
-.nodus-cta-mark {
+/* Outgoing slides drift to the left */
+.nodus-cta:not(.frame-text) .slide-text,
+.nodus-cta:not(.frame-image) .slide-image,
+.bell-cta:not(.frame-text) .slide-text,
+.bell-cta:not(.frame-image) .slide-image {
+  opacity: 0;
+  transform: translateX(-28px);
+}
+
+.nodus-cta:hover .slide-text { color: #fff; }
+
+.nodus-cta-mark,
+.bell-cta-mark {
   color: #ff6600;
   text-shadow: 0 0 6px rgba(255, 102, 0, 0.6);
   font-size: 11px;
   line-height: 1;
   flex-shrink: 0;
 }
-.nodus-cta-text {
+.nodus-cta-text,
+.bell-cta-text {
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.nodus-cta-arrow {
+.nodus-cta-arrow,
+.bell-cta-arrow {
   color: #777;
   font-size: 12px;
   flex-shrink: 0;
 }
-.nodus-cta:hover .nodus-cta-arrow { color: #ff6600; }
+.nodus-cta:hover .nodus-cta-arrow,
+.bell-cta:hover .bell-cta-arrow { color: #ff6600; }
+
+/* Brand banner image inside the image slide */
+.nodus-cta-img,
+.bell-cta-img {
+  height: 26px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+.slide-image {
+  justify-content: center;
+}
