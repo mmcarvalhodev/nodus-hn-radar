@@ -992,27 +992,17 @@ function renderBellDropdown(unread) {
   const body = $("bell-dropdown-body");
   if (!body) return;
 
-  // CTA inline at the very top of the expanded bell. Same 4-slide ticker
-  // as the sticky footer — 3 daily-rotating pitches + the NODUS-AI brand
-  // banner. The global ticker state syncs both CTAs.
-  const keys = getDailyPitchKeys();
-  const textSlide = (i) => `
-    <span class="bell-cta-slide slide-${i}">
-      <span class="bell-cta-mark">●</span>
-      <span class="bell-cta-text" data-i18n="${keys[i]}">${escapeHtml(tr(keys[i]))}</span>
-      <span class="bell-cta-arrow">↗</span>
-    </span>`;
+  // CTA inline at the very top of the expanded bell — brand-anchor only.
+  // The rotating pitches happen on the sticky footer; showing them here
+  // too would be redundant (same message on screen twice). The bell stays
+  // as a calm, static NODUS-AI identity that's seen every time the user
+  // checks notifications.
   const ctaHtml = `
-    <a class="bell-cta frame-0" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
+    <a class="bell-cta" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
        data-i18n-title="cta.lostAITitle" title="${escapeAttr(tr("cta.lostAITitle"))}">
-      ${textSlide(0)}
-      ${textSlide(1)}
-      ${textSlide(2)}
-      <span class="bell-cta-slide slide-3 slide-brand">
-        <img class="nodus-mark-img" src="icons/nodus-mark.png" alt="" />
-        <span class="nodus-brand-sep"></span>
-        <span class="nodus-brand-text"><span class="nodus-brand-name">NODUS</span><span class="nodus-brand-tag">-AI</span></span>
-      </span>
+      <img class="nodus-mark-img" src="icons/nodus-mark.png" alt="" />
+      <span class="nodus-brand-sep"></span>
+      <span class="nodus-brand-text"><span class="nodus-brand-name">NODUS</span><span class="nodus-brand-tag">-AI</span></span>
     </a>`;
 
   if (!unread || unread.length === 0) {
@@ -1045,9 +1035,6 @@ function renderBellDropdown(unread) {
     </div>`);
   }
   body.innerHTML = parts.join("");
-  // Sync the just-rendered bell CTA with the current ticker frame state
-  // so it matches whatever the sticky footer CTA is showing right now.
-  applyCtaFrameToAll();
 
   // Click on the match link: remove from unread + let the <a> open the HN tab
   body.querySelectorAll(".bell-match-link").forEach((a) => {
@@ -1342,15 +1329,20 @@ function applyCtaPitch() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// CTA ticker — 4-state rotation, 5s per state, 20s full cycle.
-//   States 0/1/2: 3 daily-rotating text pitches (shift-by-1 per day)
-//   State 3:     NODUS-AI brand slide (icon + styled HTML text)
+// CTA ticker — 6-state rotation, 5s per state, 30s full cycle.
+//   Pattern: pitch A → brand → pitch B → brand → pitch C → brand → loop
+//   Brand is shown between each pitch so the NODUS-AI mark gets
+//   3 airtime slots per cycle.
 // Drives both the sticky footer and the bell CTA in sync via the
 // .frame-N class on every .nodus-cta / .bell-cta element.
 // ═══════════════════════════════════════════════════════════
 const CTA_CYCLE_MS = 5000;
-const CTA_FRAME_COUNT = 4;
+const CTA_SLIDE_COUNT = 4;          // DOM slides: 3 texts + 1 brand
+const CTA_STATE_COUNT = 6;          // ticker states cycled by the timer
 const PITCHES_PER_DAY = 3;
+// State → visible slide index. Text states (0,2,4) point to slides
+// 0/1/2; brand states (1,3,5) all point to slide-3.
+const STATE_TO_SLIDE = [0, 3, 1, 3, 2, 3];
 let _ctaFrame = 0;
 let _ctaCycleTimer = null;
 
@@ -1368,9 +1360,12 @@ function getDailyPitchKeys(count = PITCHES_PER_DAY) {
 }
 
 function applyCtaFrameToAll() {
-  document.querySelectorAll(".nodus-cta, .bell-cta").forEach((el) => {
-    for (let i = 0; i < CTA_FRAME_COUNT; i++) {
-      el.classList.toggle(`frame-${i}`, i === _ctaFrame);
+  // Only the sticky footer participates in the ticker now. The bell CTA
+  // is a static brand anchor and doesn't take part in the frame cycle.
+  const visibleSlide = STATE_TO_SLIDE[_ctaFrame];
+  document.querySelectorAll(".nodus-cta").forEach((el) => {
+    for (let i = 0; i < CTA_SLIDE_COUNT; i++) {
+      el.classList.toggle(`frame-${i}`, i === visibleSlide);
     }
   });
 }
@@ -1379,7 +1374,7 @@ function startCtaCycle() {
   stopCtaCycle();
   applyCtaFrameToAll();
   _ctaCycleTimer = setInterval(() => {
-    _ctaFrame = (_ctaFrame + 1) % CTA_FRAME_COUNT;
+    _ctaFrame = (_ctaFrame + 1) % CTA_STATE_COUNT;
     applyCtaFrameToAll();
   }, CTA_CYCLE_MS);
 }

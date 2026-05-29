@@ -46,15 +46,15 @@ export default {
     // Day index = floor(now_ms / 86400000), so day-of-epoch picks which one.
     pitch01: "Losing your AI answers?",
     pitch02: "Organize your best AI answers",
-    pitch03: "Stop copy-pasting between chats",
+    pitch03: "Stop copy-pasting between AI chats",
     pitch04: "AI answers. NODUS remembers.",
-    pitch05: "Can't find that answer again?",
-    pitch06: "Turn answers into reusable knowledge",
-    pitch07: "Reuse ideas without losing context",
+    pitch05: "Can't find that AI answer again?",
+    pitch06: "Turn AI answers into reusable knowledge",
+    pitch07: "Reuse AI ideas without losing context",
     pitch08: "What happens to your best AI answers afterwards?",
-    pitch09: "Your best answers shouldn't be stuck in a chat",
-    pitch10: "Capture. Organize. Reuse.",
-    pitch11: "Found a valuable answer? Save it.",
+    pitch09: "Your best AI answers shouldn't be stuck in a chat",
+    pitch10: "Capture. Organize. Reuse AI answers.",
+    pitch11: "Found a valuable AI answer? Save it.",
     pitch12: "Memory for your AI conversations"
   },
   master: {

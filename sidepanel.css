@@ -1553,27 +1553,28 @@ body {
   transform: scale(1.1);
 }
 
-/* CTA banner inside the bell — appears at the top of the expanded
-   dropdown body, only visible while the bell is open. Uses the same
-   daily-rotating pitch + ticker animation as the sticky footer. */
+/* CTA banner inside the bell — brand-anchor only (no rotation).
+   The footer carries the rotating pitches; the bell stays a calm,
+   static NODUS-AI identity at the top of the expanded notifications. */
 .bell-cta {
-  position: relative;
-  display: block;
-  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
   margin: 6px 14px 10px;
+  padding: 0 14px;
   background: linear-gradient(90deg, #0a0a0a 0%, #131110 100%);
-  border: 1px solid rgba(255, 102, 0, 0.18);
+  border: 1px solid rgba(255, 184, 0, 0.18);
   border-radius: 5px;
   text-decoration: none;
   cursor: pointer;
-  overflow: hidden;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
 }
 .bell-cta:hover {
-  border-color: rgba(255, 102, 0, 0.5);
+  border-color: rgba(255, 184, 0, 0.55);
   background: linear-gradient(90deg, #0f0a05 0%, #1c1308 100%);
 }
-.bell-cta:hover .slide-text { color: #fff; }
 .bell-dropdown-foot {
   border-top: 1px solid #1a1a1a;
   padding: 8px 14px;
