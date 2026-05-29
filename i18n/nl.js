@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Nog geen treffer",
     lastMatch:       "Laatste treffer: {time}",
     matches:         "{n} treffers",
-    match:           "1 treffer"
+    match:           "1 treffer",
+    deleteConfirm:   "Bevestigen?",
+    errNameRequired: "Geef de regel een naam.",
+    errFeedRequired: "Kies minstens één feed om te volgen.",
+    errCondsRequired: "Vul minstens één voorwaarde in."
   },
   cta: {
     lostAIPitch: "AI-gesprekken kwijtraken?",

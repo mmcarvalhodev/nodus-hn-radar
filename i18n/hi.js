@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "अभी तक कोई मिलान नहीं",
     lastMatch:       "अंतिम मिलान: {time}",
     matches:         "{n} मिलान",
-    match:           "1 मिलान"
+    match:           "1 मिलान",
+    deleteConfirm:   "पक्का?",
+    errNameRequired: "कृपया नियम का नाम दें।",
+    errFeedRequired: "देखने के लिए कम से कम एक फ़ीड चुनें।",
+    errCondsRequired: "कम से कम एक शर्त भरें।"
   },
   cta: {
     lostAIPitch: "अपनी AI बातचीत खो रहे हैं?",

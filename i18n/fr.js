@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Aucune correspondance",
     lastMatch:       "Dernière correspondance : {time}",
     matches:         "{n} correspondances",
-    match:           "1 correspondance"
+    match:           "1 correspondance",
+    deleteConfirm:   "Confirmer ?",
+    errNameRequired: "Veuillez nommer la règle.",
+    errFeedRequired: "Choisissez au moins un flux à surveiller.",
+    errCondsRequired: "Remplissez au moins une condition."
   },
   cta: {
     lostAIPitch: "Vos conversations IA s'évaporent ?",

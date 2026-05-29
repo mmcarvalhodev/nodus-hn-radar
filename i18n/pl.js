@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Brak trafień",
     lastMatch:       "Ostatnie trafienie: {time}",
     matches:         "{n} trafień",
-    match:           "1 trafienie"
+    match:           "1 trafienie",
+    deleteConfirm:   "Potwierdzić?",
+    errNameRequired: "Nadaj regule nazwę.",
+    errFeedRequired: "Wybierz co najmniej jeden kanał do śledzenia.",
+    errCondsRequired: "Wypełnij co najmniej jeden warunek."
   },
   cta: {
     lostAIPitch: "Tracisz swoje rozmowy z AI?",

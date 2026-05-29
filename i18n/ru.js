@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Пока нет совпадений",
     lastMatch:       "Последнее совпадение: {time}",
     matches:         "{n} совпадений",
-    match:           "1 совпадение"
+    match:           "1 совпадение",
+    deleteConfirm:   "Подтвердить?",
+    errNameRequired: "Пожалуйста, дайте правилу название.",
+    errFeedRequired: "Выберите хотя бы один источник для отслеживания.",
+    errCondsRequired: "Заполните хотя бы одно условие."
   },
   cta: {
     lostAIPitch: "Теряете беседы с ИИ?",

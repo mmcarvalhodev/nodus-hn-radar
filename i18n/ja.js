@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "まだ一致なし",
     lastMatch:       "最後の一致: {time}",
     matches:         "{n} 件の一致",
-    match:           "1 件の一致"
+    match:           "1 件の一致",
+    deleteConfirm:   "確定?",
+    errNameRequired: "ルールに名前を付けてください。",
+    errFeedRequired: "監視するフィードを少なくとも1つ選んでください。",
+    errCondsRequired: "少なくとも1つの条件を入力してください。"
   },
   cta: {
     lostAIPitch: "AI との会話を失っていませんか?",

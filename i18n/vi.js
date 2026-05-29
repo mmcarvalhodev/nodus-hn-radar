@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Chưa có kết quả khớp",
     lastMatch:       "Khớp gần nhất: {time}",
     matches:         "{n} kết quả khớp",
-    match:           "1 kết quả khớp"
+    match:           "1 kết quả khớp",
+    deleteConfirm:   "Xác nhận?",
+    errNameRequired: "Vui lòng đặt tên cho quy tắc.",
+    errFeedRequired: "Chọn ít nhất một nguồn để theo dõi.",
+    errCondsRequired: "Điền ít nhất một điều kiện."
   },
   cta: {
     lostAIPitch: "Mất các cuộc trò chuyện AI?",

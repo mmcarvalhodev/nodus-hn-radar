@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Aún sin coincidencias",
     lastMatch:       "Última coincidencia: {time}",
     matches:         "{n} coincidencias",
-    match:           "1 coincidencia"
+    match:           "1 coincidencia",
+    deleteConfirm:   "¿Confirmar?",
+    errNameRequired: "Por favor, ponle un nombre a la regla.",
+    errFeedRequired: "Elige al menos un feed para vigilar.",
+    errCondsRequired: "Completa al menos una condición."
   },
   cta: {
     lostAIPitch: "¿Perdiendo tus conversaciones con IA?",

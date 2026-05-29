@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "아직 일치 없음",
     lastMatch:       "마지막 일치: {time}",
     matches:         "{n}건 일치",
-    match:           "1건 일치"
+    match:           "1건 일치",
+    deleteConfirm:   "확인?",
+    errNameRequired: "규칙 이름을 입력해 주세요.",
+    errFeedRequired: "감시할 피드를 하나 이상 선택하세요.",
+    errCondsRequired: "조건을 하나 이상 입력하세요."
   },
   cta: {
     lostAIPitch: "AI 대화를 잃고 있나요?",

@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Noch kein Treffer",
     lastMatch:       "Letzter Treffer: {time}",
     matches:         "{n} Treffer",
-    match:           "1 Treffer"
+    match:           "1 Treffer",
+    deleteConfirm:   "Bestätigen?",
+    errNameRequired: "Bitte gib der Regel einen Namen.",
+    errFeedRequired: "Wähle mindestens einen Feed zum Beobachten.",
+    errCondsRequired: "Füll mindestens eine Bedingung aus."
   },
   cta: {
     lostAIPitch: "KI-Gespräche gehen verloren?",

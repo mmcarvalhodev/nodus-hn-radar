@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Henüz eşleşme yok",
     lastMatch:       "Son eşleşme: {time}",
     matches:         "{n} eşleşme",
-    match:           "1 eşleşme"
+    match:           "1 eşleşme",
+    deleteConfirm:   "Onayla?",
+    errNameRequired: "Lütfen kurala bir ad verin.",
+    errFeedRequired: "İzlemek için en az bir akış seçin.",
+    errCondsRequired: "En az bir koşul doldurun."
   },
   cta: {
     lostAIPitch: "AI sohbetlerinizi kaybediyor musunuz?",

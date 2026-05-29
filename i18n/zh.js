@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "尚无匹配",
     lastMatch:       "最后匹配:{time}",
     matches:         "{n} 个匹配",
-    match:           "1 个匹配"
+    match:           "1 个匹配",
+    deleteConfirm:   "确认?",
+    errNameRequired: "请为规则命名。",
+    errFeedRequired: "请至少选择一个要监视的信息源。",
+    errCondsRequired: "请至少填写一个条件。"
   },
   cta: {
     lostAIPitch: "AI 对话正在丢失?",

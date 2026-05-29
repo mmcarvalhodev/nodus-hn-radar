@@ -32,7 +32,11 @@ export default {
     lastMatchNever:  "Sem correspondência ainda",
     lastMatch:       "Última correspondência: {time}",
     matches:         "{n} correspondências",
-    match:           "1 correspondência"
+    match:           "1 correspondência",
+    deleteConfirm:   "Confirmar?",
+    errNameRequired: "Por favor, dê um nome à regra.",
+    errFeedRequired: "Escolha pelo menos um feed para acompanhar.",
+    errCondsRequired: "Preencha pelo menos uma condição."
   },
   cta: {
     lostAIPitch: "Perdendo suas conversas com IA?",

@@ -28,7 +28,11 @@ export default {
     lastMatchNever:  "No match yet",
     lastMatch:       "Last match: {time}",
     matches:         "{n} matches",
-    match:           "1 match"
+    match:           "1 match",
+    deleteConfirm:   "Confirm?",
+    errNameRequired: "Please give the rule a name.",
+    errFeedRequired: "Pick at least one feed to watch.",
+    errCondsRequired: "Fill at least one condition."
   },
   cta: {
     lostAIPitch: "Losing your AI conversations?",

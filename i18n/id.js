@@ -24,7 +24,11 @@ export default {
     lastMatchNever:  "Belum ada kecocokan",
     lastMatch:       "Kecocokan terakhir: {time}",
     matches:         "{n} kecocokan",
-    match:           "1 kecocokan"
+    match:           "1 kecocokan",
+    deleteConfirm:   "Konfirmasi?",
+    errNameRequired: "Mohon beri nama untuk aturan.",
+    errFeedRequired: "Pilih setidaknya satu feed untuk dipantau.",
+    errCondsRequired: "Isi setidaknya satu kondisi."
   },
   cta: {
     lostAIPitch: "Kehilangan percakapan AI Anda?",

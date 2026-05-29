@@ -1068,10 +1068,23 @@ async function renderWatchRules() {
     btn.addEventListener("click", async () => openWatchForm(btn.dataset.ruleId));
   });
   list.querySelectorAll(".watch-rule-delete").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      if (!confirm("Delete this rule?")) return;
-      await deleteWatchRule(btn.dataset.ruleId);
-      renderWatchRules();
+    let revertTimer = null;
+    btn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      // Two-stage delete — first click arms, second click within 3s confirms.
+      // Avoids the browser-native confirm() popup that breaks the dark theme.
+      if (btn.classList.contains("confirming")) {
+        clearTimeout(revertTimer);
+        await deleteWatchRule(btn.dataset.ruleId);
+        renderWatchRules();
+        return;
+      }
+      btn.classList.add("confirming");
+      btn.textContent = tr("watch.deleteConfirm");
+      revertTimer = setTimeout(() => {
+        btn.classList.remove("confirming");
+        btn.textContent = tr("watch.delete");
+      }, 3000);
     });
   });
 }
@@ -1117,17 +1130,35 @@ function closeWatchForm() {
   if (!form) return;
   form.hidden = true;
   _editingRuleId = null;
+  clearFormError();
+}
+
+function showFormError(key) {
+  const el = $("watch-form-error");
+  if (!el) return;
+  el.textContent = tr(key);
+  el.hidden = false;
+  // Briefly flash by scrolling it into view if the form is long
+  el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function clearFormError() {
+  const el = $("watch-form-error");
+  if (el) el.hidden = true;
 }
 
 async function saveWatchForm() {
+  clearFormError();
+
   const name = $("watch-name").value.trim();
   if (!name) {
-    alert("Please give the rule a name.");
+    showFormError("watch.errNameRequired");
+    $("watch-name")?.focus();
     return;
   }
   const feeds = ["top", "show", "ask", "best"].filter((f) => $(`watch-feed-${f}`)?.checked);
   if (feeds.length === 0) {
-    alert("Pick at least one feed to watch.");
+    showFormError("watch.errFeedRequired");
     return;
   }
   const predicates = {};
@@ -1140,7 +1171,7 @@ async function saveWatchForm() {
     predicates[field] = { [op]: n };
   }
   if (Object.keys(predicates).length === 0) {
-    alert("Fill at least one condition.");
+    showFormError("watch.errCondsRequired");
     return;
   }
 
