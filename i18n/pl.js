@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Potwierdzić?",
     errNameRequired: "Nadaj regule nazwę.",
     errFeedRequired: "Wybierz co najmniej jeden kanał do śledzenia.",
-    errCondsRequired: "Wypełnij co najmniej jeden warunek."
+    errCondsRequired: "Wypełnij co najmniej jeden warunek.",
+    errMaxReached:   "Osiągnięto maksimum 5 reguł. Usuń jedną, aby dodać kolejną.",
+    capHint:         "Wszystkie {max} miejsca zajęte — usuń regułę, aby dodać nową.",
+    toggleHint:      "Włącz lub wyłącz tę regułę"
   },
   cta: {
     lostAIPitch: "Tracisz swoje rozmowy z AI?",

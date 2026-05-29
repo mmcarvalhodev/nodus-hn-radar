@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "확인?",
     errNameRequired: "규칙 이름을 입력해 주세요.",
     errFeedRequired: "감시할 피드를 하나 이상 선택하세요.",
-    errCondsRequired: "조건을 하나 이상 입력하세요."
+    errCondsRequired: "조건을 하나 이상 입력하세요.",
+    errMaxReached:   "규칙 최대 5개에 도달했습니다. 추가하려면 하나를 삭제하세요.",
+    capHint:         "{max}개 슬롯이 모두 사용 중입니다 — 새로 추가하려면 규칙을 삭제하세요.",
+    toggleHint:      "이 규칙 켜기/끄기"
   },
   cta: {
     lostAIPitch: "AI 대화를 잃고 있나요?",

@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "確定?",
     errNameRequired: "ルールに名前を付けてください。",
     errFeedRequired: "監視するフィードを少なくとも1つ選んでください。",
-    errCondsRequired: "少なくとも1つの条件を入力してください。"
+    errCondsRequired: "少なくとも1つの条件を入力してください。",
+    errMaxReached:   "ルールの上限5件に達しました。追加するには1件削除してください。",
+    capHint:         "{max}件すべて使用中 — 新規追加にはルールを1件削除してください。",
+    toggleHint:      "このルールのオン／オフを切り替え"
   },
   cta: {
     lostAIPitch: "AI との会話を失っていませんか?",

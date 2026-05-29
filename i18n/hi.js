@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "पक्का?",
     errNameRequired: "कृपया नियम का नाम दें।",
     errFeedRequired: "देखने के लिए कम से कम एक फ़ीड चुनें।",
-    errCondsRequired: "कम से कम एक शर्त भरें।"
+    errCondsRequired: "कम से कम एक शर्त भरें।",
+    errMaxReached:   "5 नियमों की सीमा पूरी हो गई। एक हटाकर नया जोड़ें।",
+    capHint:         "सभी {max} स्लॉट भरे हैं — नया जोड़ने के लिए एक नियम हटाएँ।",
+    toggleHint:      "इस नियम को चालू या बंद करें"
   },
   cta: {
     lostAIPitch: "अपनी AI बातचीत खो रहे हैं?",

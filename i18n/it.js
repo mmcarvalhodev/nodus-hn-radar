@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Confermare?",
     errNameRequired: "Assegna un nome alla regola.",
     errFeedRequired: "Scegli almeno un feed da monitorare.",
-    errCondsRequired: "Compila almeno una condizione."
+    errCondsRequired: "Compila almeno una condizione.",
+    errMaxReached:   "Massimo di 5 regole raggiunto. Eliminane una per aggiungerne un'altra.",
+    capHint:         "Tutti gli {max} slot sono usati — elimina una regola per aggiungerne una nuova.",
+    toggleHint:      "Attiva o disattiva questa regola"
   },
   cta: {
     lostAIPitch: "Stai perdendo le conversazioni IA?",

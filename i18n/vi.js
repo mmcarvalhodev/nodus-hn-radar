@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Xác nhận?",
     errNameRequired: "Vui lòng đặt tên cho quy tắc.",
     errFeedRequired: "Chọn ít nhất một nguồn để theo dõi.",
-    errCondsRequired: "Điền ít nhất một điều kiện."
+    errCondsRequired: "Điền ít nhất một điều kiện.",
+    errMaxReached:   "Đã đạt tối đa 5 quy tắc. Xoá một để thêm quy tắc khác.",
+    capHint:         "Đã dùng hết {max} chỗ — xoá một quy tắc để thêm mới.",
+    toggleHint:      "Bật hoặc tắt quy tắc này"
   },
   cta: {
     lostAIPitch: "Mất các cuộc trò chuyện AI?",

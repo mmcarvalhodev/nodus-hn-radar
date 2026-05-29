@@ -32,7 +32,10 @@ export default {
     deleteConfirm:   "Confirm?",
     errNameRequired: "Please give the rule a name.",
     errFeedRequired: "Pick at least one feed to watch.",
-    errCondsRequired: "Fill at least one condition."
+    errCondsRequired: "Fill at least one condition.",
+    errMaxReached:   "Maximum of 5 rules reached. Delete one to add another.",
+    capHint:         "All {max} slots used — delete a rule to add a new one.",
+    toggleHint:      "Toggle this rule on or off"
   },
   cta: {
     lostAIPitch: "Losing your AI conversations?",

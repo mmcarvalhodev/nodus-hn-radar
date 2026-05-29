@@ -309,6 +309,11 @@ const WATCH_UNREAD_KEY = "watchUnread";
 const WATCH_FIRED_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 const WATCH_UNREAD_CAP   = 50;                  // keep last 50 in the bell
 
+// Hard cap on the number of rules a user can have at any time.
+// Forces focus: the watchlist is for the few alerts that actually matter.
+// At 5/5 the "+ New rule" button is disabled until the user deletes one.
+export const WATCH_RULES_MAX = 5;
+
 export async function getWatchRules() {
   const raw = await getFromStorage(WATCH_RULES_KEY);
   return Array.isArray(raw) ? raw : [];
@@ -325,6 +330,12 @@ function uuid() {
 
 export async function addWatchRule(rule) {
   const rules = await getWatchRules();
+  if (rules.length >= WATCH_RULES_MAX) {
+    throw Object.assign(
+      new Error(`Maximum number of rules reached (${WATCH_RULES_MAX}).`),
+      { code: "MAX_REACHED" }
+    );
+  }
   const full = {
     id:        rule.id || uuid(),
     name:      String(rule.name || "Untitled rule").slice(0, 60),

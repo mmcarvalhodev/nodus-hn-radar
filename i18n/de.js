@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Bestätigen?",
     errNameRequired: "Bitte gib der Regel einen Namen.",
     errFeedRequired: "Wähle mindestens einen Feed zum Beobachten.",
-    errCondsRequired: "Füll mindestens eine Bedingung aus."
+    errCondsRequired: "Füll mindestens eine Bedingung aus.",
+    errMaxReached:   "Maximum von 5 Regeln erreicht. Lösche eine, um eine neue anzulegen.",
+    capHint:         "Alle {max} Plätze belegt — lösche eine Regel, um eine neue anzulegen.",
+    toggleHint:      "Diese Regel ein- oder ausschalten"
   },
   cta: {
     lostAIPitch: "KI-Gespräche gehen verloren?",

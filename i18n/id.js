@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Konfirmasi?",
     errNameRequired: "Mohon beri nama untuk aturan.",
     errFeedRequired: "Pilih setidaknya satu feed untuk dipantau.",
-    errCondsRequired: "Isi setidaknya satu kondisi."
+    errCondsRequired: "Isi setidaknya satu kondisi.",
+    errMaxReached:   "Maksimum 5 aturan tercapai. Hapus satu untuk menambah aturan baru.",
+    capHint:         "Semua {max} slot terpakai — hapus satu aturan untuk menambah yang baru.",
+    toggleHint:      "Aktifkan atau matikan aturan ini"
   },
   cta: {
     lostAIPitch: "Kehilangan percakapan AI Anda?",

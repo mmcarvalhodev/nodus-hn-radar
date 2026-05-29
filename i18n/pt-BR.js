@@ -36,7 +36,10 @@ export default {
     deleteConfirm:   "Confirmar?",
     errNameRequired: "Por favor, dê um nome à regra.",
     errFeedRequired: "Escolha pelo menos um feed para acompanhar.",
-    errCondsRequired: "Preencha pelo menos uma condição."
+    errCondsRequired: "Preencha pelo menos uma condição.",
+    errMaxReached:   "Máximo de 5 regras atingido. Exclua uma para adicionar outra.",
+    capHint:         "Todos os {max} espaços usados — exclua uma regra para criar outra.",
+    toggleHint:      "Ativar ou desativar esta regra"
   },
   cta: {
     lostAIPitch: "Perdendo suas conversas com IA?",

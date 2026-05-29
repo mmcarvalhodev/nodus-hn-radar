@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Onayla?",
     errNameRequired: "Lütfen kurala bir ad verin.",
     errFeedRequired: "İzlemek için en az bir akış seçin.",
-    errCondsRequired: "En az bir koşul doldurun."
+    errCondsRequired: "En az bir koşul doldurun.",
+    errMaxReached:   "5 kural sınırına ulaşıldı. Yeni eklemek için birini silin.",
+    capHint:         "{max} yuvanın tamamı dolu — yeni eklemek için bir kuralı silin.",
+    toggleHint:      "Bu kuralı aç veya kapat"
   },
   cta: {
     lostAIPitch: "AI sohbetlerinizi kaybediyor musunuz?",

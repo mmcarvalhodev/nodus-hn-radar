@@ -10,7 +10,8 @@ import {
   getCachedOPActive, setCachedOPActive,
   // Phase 3a — Watchlist
   getWatchRules, addWatchRule, updateWatchRule, deleteWatchRule,
-  getWatchUnread, clearWatchUnread, removeWatchUnread
+  getWatchUnread, clearWatchUnread, removeWatchUnread,
+  WATCH_RULES_MAX
 } from "./storage.js";
 import { startWatcher, stopWatcher, onUnreadChange } from "./watcher.js";
 import { summarizeRule } from "./match-engine.js";
@@ -1023,9 +1024,21 @@ function renderBellDropdown(unread) {
 async function renderWatchRules() {
   const list  = $("watch-rules-list");
   const count = $("watch-count");
+  const newBtn = $("watch-new-btn");
   if (!list) return;
   const rules = await getWatchRules();
-  if (count) count.textContent = String(rules.length);
+  const atCap = rules.length >= WATCH_RULES_MAX;
+
+  if (count) {
+    count.textContent = `${rules.length}/${WATCH_RULES_MAX}`;
+    count.classList.toggle("full", atCap);
+  }
+  if (newBtn) {
+    newBtn.disabled = atCap;
+    newBtn.classList.toggle("disabled", atCap);
+    newBtn.title = atCap ? tr("watch.errMaxReached") : "";
+  }
+
   if (rules.length === 0) {
     list.innerHTML = `<div class="watch-rule-empty" style="color:#666;font-size:11px;text-align:center;padding:12px;">No rules yet.</div>`;
     return;
@@ -1040,9 +1053,12 @@ async function renderWatchRules() {
     return `
       <div class="watch-rule-card" data-rule-id="${escapeAttr(r.id)}">
         <div class="watch-rule-head">
+          <label class="watch-rule-check" title="${escapeAttr(tr("watch.toggleHint"))}">
+            <input type="checkbox" data-rule-id="${escapeAttr(r.id)}" ${r.enabled ? "checked" : ""} />
+            <span class="check-box"></span>
+          </label>
           <span class="watch-rule-dot" style="background:hsl(${hue},65%,55%)"></span>
           <span class="watch-rule-name">${escapeHtml(r.name)}</span>
-          <button class="watch-rule-toggle ${r.enabled ? "on" : ""}" data-rule-id="${escapeAttr(r.id)}" aria-label="Toggle rule"></button>
         </div>
         <div class="watch-rule-summary">${escapeHtml(summary)}</div>
         <div class="watch-rule-feeds">on: ${escapeHtml(feeds || "—")}</div>
@@ -1054,13 +1070,20 @@ async function renderWatchRules() {
       </div>`;
   }).join("");
 
-  list.querySelectorAll(".watch-rule-toggle").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.ruleId;
-      const rules = await getWatchRules();
-      const r = rules.find((x) => x.id === id);
-      if (!r) return;
-      await updateWatchRule(id, { enabled: !r.enabled });
+  // Cap-reached hint below the list (extra explainer beyond the disabled button tooltip)
+  if (atCap) {
+    const hint = document.createElement("div");
+    hint.className = "watch-cap-hint";
+    hint.textContent = tr("watch.capHint", { max: WATCH_RULES_MAX });
+    list.appendChild(hint);
+  }
+
+  list.querySelectorAll(".watch-rule-check input").forEach((input) => {
+    input.addEventListener("change", async () => {
+      const id = input.dataset.ruleId;
+      await updateWatchRule(id, { enabled: input.checked });
+      // No full re-render needed for a toggle; but renderWatchRules keeps
+      // the rest consistent (lastMatch refresh, etc.) — cheap enough.
       renderWatchRules();
     });
   });
@@ -1090,7 +1113,13 @@ async function renderWatchRules() {
 }
 
 function wireWatchForm() {
-  $("watch-new-btn")?.addEventListener("click", () => openWatchForm(null));
+  $("watch-new-btn")?.addEventListener("click", async () => {
+    // Guard against opening the form when already at cap (button is disabled
+    // but cover keyboard navigation / programmatic events too).
+    const rules = await getWatchRules();
+    if (rules.length >= WATCH_RULES_MAX) return;
+    openWatchForm(null);
+  });
   $("watch-cancel-btn")?.addEventListener("click", closeWatchForm);
   $("watch-save-btn")?.addEventListener("click", saveWatchForm);
 }
@@ -1175,10 +1204,18 @@ async function saveWatchForm() {
     return;
   }
 
-  if (_editingRuleId) {
-    await updateWatchRule(_editingRuleId, { name, feeds, predicates });
-  } else {
-    await addWatchRule({ name, feeds, predicates, enabled: true });
+  try {
+    if (_editingRuleId) {
+      await updateWatchRule(_editingRuleId, { name, feeds, predicates });
+    } else {
+      await addWatchRule({ name, feeds, predicates, enabled: true });
+    }
+  } catch (err) {
+    if (err?.code === "MAX_REACHED") {
+      showFormError("watch.errMaxReached");
+      return;
+    }
+    throw err;
   }
   closeWatchForm();
   renderWatchRules();

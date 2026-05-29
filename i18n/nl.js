@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Bevestigen?",
     errNameRequired: "Geef de regel een naam.",
     errFeedRequired: "Kies minstens één feed om te volgen.",
-    errCondsRequired: "Vul minstens één voorwaarde in."
+    errCondsRequired: "Vul minstens één voorwaarde in.",
+    errMaxReached:   "Maximum van 5 regels bereikt. Verwijder er één om er nog een toe te voegen.",
+    capHint:         "Alle {max} plekken zijn gebruikt — verwijder een regel om een nieuwe toe te voegen.",
+    toggleHint:      "Deze regel aan- of uitzetten"
   },
   cta: {
     lostAIPitch: "AI-gesprekken kwijtraken?",

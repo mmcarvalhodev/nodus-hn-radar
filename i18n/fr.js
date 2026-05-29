@@ -28,7 +28,10 @@ export default {
     deleteConfirm:   "Confirmer ?",
     errNameRequired: "Veuillez nommer la règle.",
     errFeedRequired: "Choisissez au moins un flux à surveiller.",
-    errCondsRequired: "Remplissez au moins une condition."
+    errCondsRequired: "Remplissez au moins une condition.",
+    errMaxReached:   "Maximum de 5 règles atteint. Supprimez-en une pour en ajouter une autre.",
+    capHint:         "Les {max} emplacements sont utilisés — supprimez une règle pour en ajouter une.",
+    toggleHint:      "Activer ou désactiver cette règle"
   },
   cta: {
     lostAIPitch: "Vos conversations IA s'évaporent ?",
