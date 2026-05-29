@@ -936,7 +936,7 @@ async function refreshBellBadge(animate = false) {
     btn.classList.remove("has-unread");
   }
   // If dropdown is open, also re-render its contents
-  if ($("bell-dropdown") && !$("bell-dropdown").hidden) {
+  if ($("bell-dropdown")?.classList.contains("open")) {
     renderBellDropdown(unread);
   }
 }
@@ -950,22 +950,16 @@ function wireBell() {
 
   btn.addEventListener("click", async (e) => {
     e.stopPropagation();
-    const open = !dropdown.hidden;
-    if (open) {
-      dropdown.hidden = true;
+    const isOpen = dropdown.classList.contains("open");
+    if (isOpen) {
+      dropdown.classList.remove("open");
+      dropdown.setAttribute("aria-hidden", "true");
       return;
     }
     const unread = await getWatchUnread();
     renderBellDropdown(unread);
-    dropdown.hidden = false;
-  });
-
-  // Click outside closes
-  document.addEventListener("click", (e) => {
-    if (dropdown.hidden) return;
-    if (!dropdown.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-      dropdown.hidden = true;
-    }
+    dropdown.classList.add("open");
+    dropdown.setAttribute("aria-hidden", "false");
   });
 
   markAll?.addEventListener("click", async () => {
@@ -975,7 +969,8 @@ function wireBell() {
   });
 
   manage?.addEventListener("click", () => {
-    dropdown.hidden = true;
+    dropdown.classList.remove("open");
+    dropdown.setAttribute("aria-hidden", "true");
     const panel = $("watch-panel");
     panel?.classList.remove("collapsed");
     panel?.scrollIntoView({ behavior: "smooth", block: "start" });

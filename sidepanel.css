@@ -1423,22 +1423,29 @@ body {
   border: 1px solid #050505;
 }
 
-/* ── Bell dropdown ── */
-.bell-dropdown {
-  position: absolute;
-  top: 56px;
-  right: 8px;
-  width: 280px;
-  max-height: 360px;
+/* ── Bell panel — inline expansion (push-down, not overlay) ── */
+.bell-panel {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
   background: #0d0d0d;
-  border: 1px solid #2a2a2a;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
-  z-index: 100;
+  transition: max-height 0.28s ease;
+  flex-shrink: 0;
+}
+.bell-panel.open {
+  max-height: 50vh;
+  border-bottom: 1px solid #1a1a1a;
+}
+.bell-panel-inner {
   display: flex;
   flex-direction: column;
+  max-height: 50vh;
   overflow: hidden;
 }
+.bell-panel.open .bell-dropdown-body { max-height: calc(50vh - 80px); }
+
+/* Keep legacy id-based selector usable; back-compat alias */
+.bell-dropdown { /* deprecated wrapper for the inner panel layout */ }
 .bell-dropdown-head {
   display: flex;
   justify-content: space-between;
