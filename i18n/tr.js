@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "NODUS tarafından", openHN: "Hacker News'i Aç", openSite: "HN Radar web sitesini aç" },
   master: { enabled: "Lens etkin", hint: "news.ycombinator.com için görsel okuma katmanı" },
-  panels: { pinned: "Sabitlenenler", radar: "Radar", settings: "Lens ayarları", comingSoon: "yakında" },
+  watch: {
+    tab:             "İzle",
+    intro:           "Gönderiler eşiklerinizi aştığında bildirim alın. Yoklama yalnızca bu panel açıkken çalışır — arka plan işi yok, bildirim izni gerekmez.",
+    newRule:         "+ Yeni kural",
+    edit:            "Düzenle",
+    delete:          "Sil",
+    ruleName:        "Kural adı",
+    ruleNamePh:      "ör: Büyük Show HN gönderileri",
+    feeds:           "Şurada izle",
+    conditions:      "Koşullar",
+    condsHint:       "Bir değeri boş bırakırsanız o koşul atlanır. Doldurulan tüm koşullar eşleşmeli (VE).",
+    points:          "Puan",
+    comments:        "Yorum",
+    velocity:        "Hız",
+    save:            "Kuralı kaydet",
+    cancel:          "İptal",
+    notifications:   "Bildirimler",
+    markAllRead:     "Tümünü okundu işaretle",
+    noNotifications: "Yeni eşleşme yok.",
+    manageRules:     "Kuralları yönet ⚙",
+    lastMatchNever:  "Henüz eşleşme yok",
+    lastMatch:       "Son eşleşme: {time}",
+    matches:         "{n} eşleşme",
+    match:           "1 eşleşme"
+  },
+  cta: {
+    lostAIPitch: "AI sohbetlerinizi kaybediyor musunuz?",
+    lostAITitle: "NODUS'u aç — AI sohbetlerini yakala"
+  },
+  panels: { pinned: "Sabitlenenler", radar: "Radar", watch: "İzle", settings: "Lens ayarları", comingSoon: "yakında" },
   pinned: {
     empty: "Sabitlenmiş gönderi yok.",
     hint: "Burada takip etmek için Hacker News'teki herhangi bir gönderinin yanındaki 📌'ye tıklayın.",

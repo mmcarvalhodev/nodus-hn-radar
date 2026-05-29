@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Dibuat oleh NODUS", openHN: "Buka Hacker News", openSite: "Buka situs HN Radar" },
   master: { enabled: "Lens aktif", hint: "Lapisan baca visual di news.ycombinator.com" },
-  panels: { pinned: "Disematkan", radar: "Radar", settings: "Pengaturan Lens", comingSoon: "segera hadir" },
+  watch: {
+    tab:             "Pantau",
+    intro:           "Dapatkan peringatan saat post melewati ambang batas Anda. Polling hanya berjalan saat panel ini terbuka — tanpa kerja latar belakang, tanpa izin notifikasi.",
+    newRule:         "+ Aturan baru",
+    edit:            "Edit",
+    delete:          "Hapus",
+    ruleName:        "Nama aturan",
+    ruleNamePh:      "mis. Post Show HN besar",
+    feeds:           "Pantau di",
+    conditions:      "Kondisi",
+    condsHint:       "Biarkan nilai kosong untuk melewati kondisi itu. Semua kondisi yang diisi harus cocok (DAN).",
+    points:          "Poin",
+    comments:        "Komentar",
+    velocity:        "Kecepatan",
+    save:            "Simpan aturan",
+    cancel:          "Batal",
+    notifications:   "Notifikasi",
+    markAllRead:     "Tandai semua sudah dibaca",
+    noNotifications: "Tidak ada kecocokan baru.",
+    manageRules:     "Kelola aturan ⚙",
+    lastMatchNever:  "Belum ada kecocokan",
+    lastMatch:       "Kecocokan terakhir: {time}",
+    matches:         "{n} kecocokan",
+    match:           "1 kecocokan"
+  },
+  cta: {
+    lostAIPitch: "Kehilangan percakapan AI Anda?",
+    lostAITitle: "Buka NODUS — tangkap percakapan AI"
+  },
+  panels: { pinned: "Disematkan", radar: "Radar", watch: "Pantau", settings: "Pengaturan Lens", comingSoon: "segera hadir" },
   pinned: {
     empty: "Tidak ada post yang disematkan.",
     hint: "Klik 📌 di sebelah post mana pun di Hacker News untuk melacaknya di sini.",

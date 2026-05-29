@@ -5,6 +5,35 @@ export default {
     openHN: "Open Hacker News",
     openSite: "Open HN Radar website"
   },
+  watch: {
+    tab:             "Watch",
+    intro:           "Get alerted when posts cross your thresholds. Polling runs only while this panel is open — no background work, no notifications permission.",
+    newRule:         "+ New rule",
+    edit:            "Edit",
+    delete:          "Delete",
+    ruleName:        "Rule name",
+    ruleNamePh:      "e.g. Big Show HN posts",
+    feeds:           "Watch on",
+    conditions:      "Conditions",
+    condsHint:       "Leave any value empty to skip that condition. All filled conditions must match (AND).",
+    points:          "Points",
+    comments:        "Comments",
+    velocity:        "Velocity",
+    save:            "Save rule",
+    cancel:          "Cancel",
+    notifications:   "Notifications",
+    markAllRead:     "Mark all read",
+    noNotifications: "No new matches.",
+    manageRules:     "Manage rules ⚙",
+    lastMatchNever:  "No match yet",
+    lastMatch:       "Last match: {time}",
+    matches:         "{n} matches",
+    match:           "1 match"
+  },
+  cta: {
+    lostAIPitch: "Losing your AI conversations?",
+    lostAITitle: "Open NODUS — capture AI conversations"
+  },
   master: {
     enabled: "Lens enabled",
     hint: "Visual reading layer on news.ycombinator.com"
@@ -12,6 +41,7 @@ export default {
   panels: {
     pinned:   "Pinned",
     radar:    "Radar",
+    watch:    "Watch",
     settings: "Lens settings",
     comingSoon: "coming soon"
   },

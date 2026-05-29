@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "NODUS 제작", openHN: "Hacker News 열기", openSite: "HN Radar 웹사이트 열기" },
   master: { enabled: "Lens 사용", hint: "news.ycombinator.com 가독성 레이어" },
-  panels: { pinned: "고정됨", radar: "레이더", settings: "Lens 설정", comingSoon: "곧 공개" },
+  watch: {
+    tab:             "관찰",
+    intro:           "게시물이 임계값을 넘으면 알림을 받으세요. 폴링은 이 패널이 열려 있을 때만 실행됩니다 — 백그라운드 작업 없음, 알림 권한 불필요.",
+    newRule:         "+ 새 규칙",
+    edit:            "편집",
+    delete:          "삭제",
+    ruleName:        "규칙 이름",
+    ruleNamePh:      "예: 인기 Show HN 게시물",
+    feeds:           "관찰 대상",
+    conditions:      "조건",
+    condsHint:       "값을 비워두면 해당 조건은 건너뜁니다. 입력된 모든 조건은 일치해야 합니다 (AND).",
+    points:          "포인트",
+    comments:        "댓글",
+    velocity:        "속도",
+    save:            "규칙 저장",
+    cancel:          "취소",
+    notifications:   "알림",
+    markAllRead:     "모두 읽음 처리",
+    noNotifications: "새 일치 항목이 없습니다.",
+    manageRules:     "규칙 관리 ⚙",
+    lastMatchNever:  "아직 일치 없음",
+    lastMatch:       "마지막 일치: {time}",
+    matches:         "{n}건 일치",
+    match:           "1건 일치"
+  },
+  cta: {
+    lostAIPitch: "AI 대화를 잃고 있나요?",
+    lostAITitle: "NODUS 열기 — AI 대화 캡처"
+  },
+  panels: { pinned: "고정됨", radar: "레이더", watch: "관찰", settings: "Lens 설정", comingSoon: "곧 공개" },
   pinned: {
     empty: "고정된 게시물이 없습니다.",
     hint: "Hacker News 게시물의 📌를 클릭해 여기서 추적하세요.",

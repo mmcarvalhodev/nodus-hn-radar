@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "由 NODUS 制作", openHN: "打开 Hacker News", openSite: "打开 HN Radar 网站" },
   master: { enabled: "Lens 已启用", hint: "news.ycombinator.com 的视觉阅读层" },
-  panels: { pinned: "已固定", radar: "雷达", settings: "Lens 设置", comingSoon: "即将推出" },
+  watch: {
+    tab:             "监视",
+    intro:           "当帖子越过您的阈值时收到提醒。轮询仅在此面板打开时运行 — 无后台任务,无需通知权限。",
+    newRule:         "+ 新规则",
+    edit:            "编辑",
+    delete:          "删除",
+    ruleName:        "规则名称",
+    ruleNamePh:      "例如:大型 Show HN 帖子",
+    feeds:           "监视来源",
+    conditions:      "条件",
+    condsHint:       "留空任意值以跳过该条件。所有填写的条件必须匹配(AND)。",
+    points:          "点数",
+    comments:        "评论",
+    velocity:        "速度",
+    save:            "保存规则",
+    cancel:          "取消",
+    notifications:   "通知",
+    markAllRead:     "全部标为已读",
+    noNotifications: "没有新的匹配。",
+    manageRules:     "管理规则 ⚙",
+    lastMatchNever:  "尚无匹配",
+    lastMatch:       "最后匹配:{time}",
+    matches:         "{n} 个匹配",
+    match:           "1 个匹配"
+  },
+  cta: {
+    lostAIPitch: "AI 对话正在丢失?",
+    lostAITitle: "打开 NODUS — 捕获 AI 对话"
+  },
+  panels: { pinned: "已固定", radar: "雷达", watch: "监视", settings: "Lens 设置", comingSoon: "即将推出" },
   pinned: {
     empty: "没有已固定的帖子。",
     hint: "点击 Hacker News 帖子旁的 📌 在此追踪。",

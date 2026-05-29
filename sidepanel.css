@@ -1373,3 +1373,451 @@ body {
 .version {
   color: #555;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Phase 3a — Watchlist UI
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Bell button in header ── */
+.bell-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #888;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.bell-btn:hover {
+  color: #ff6600;
+  background: rgba(255, 102, 0, 0.08);
+  border-color: rgba(255, 102, 0, 0.3);
+}
+.bell-btn.has-unread { color: #ff6600; }
+.bell-btn.pulse svg { animation: bell-pulse 0.7s ease-out; }
+@keyframes bell-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.bell-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 4px;
+  background: #ff6600;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+  border-radius: 7px;
+  border: 1px solid #050505;
+}
+
+/* ── Bell dropdown ── */
+.bell-dropdown {
+  position: absolute;
+  top: 56px;
+  right: 8px;
+  width: 280px;
+  max-height: 360px;
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.bell-dropdown-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid #1a1a1a;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #888;
+}
+.bell-mark-all {
+  background: transparent;
+  border: none;
+  color: #ff6600;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.bell-mark-all:hover { color: #ffa733; }
+.bell-dropdown-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+.bell-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: #555;
+  font-size: 12px;
+}
+.bell-group {
+  padding: 8px 14px 4px;
+}
+.bell-group-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.bell-group-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.bell-group-name { color: #ddd; flex: 1; }
+.bell-group-count { color: #777; font-weight: 400; font-size: 10px; }
+.bell-match {
+  display: block;
+  padding: 6px 8px;
+  margin: 2px 0;
+  background: #131313;
+  border: 1px solid #1a1a1a;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+.bell-match:hover {
+  background: #1a1410;
+  border-color: rgba(255,102,0,0.4);
+}
+.bell-match-title {
+  font-size: 12px;
+  color: #ddd;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bell-match-meta {
+  font-size: 10px;
+  color: #666;
+  margin-top: 3px;
+}
+.bell-dropdown-foot {
+  border-top: 1px solid #1a1a1a;
+  padding: 8px 14px;
+}
+.bell-manage {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+}
+.bell-manage:hover { color: #fff; }
+
+/* ── Watch panel ── */
+.watch-icon { font-size: 14px; }
+.watch-intro {
+  font-size: 11px;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  background: rgba(255,102,0,0.04);
+  border-left: 2px solid rgba(255,102,0,0.4);
+  border-radius: 0 4px 4px 0;
+}
+.watch-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.watch-rule-card {
+  background: #0f0f0f;
+  border: 1px solid #1e1e1e;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.watch-rule-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.watch-rule-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.watch-rule-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #eee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.watch-rule-toggle {
+  width: 30px;
+  height: 16px;
+  background: #333;
+  border-radius: 8px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s;
+}
+.watch-rule-toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: #888;
+  border-radius: 50%;
+  transition: left 0.15s, background 0.15s;
+}
+.watch-rule-toggle.on { background: rgba(255,102,0,0.4); }
+.watch-rule-toggle.on::after { left: 16px; background: #ff6600; }
+.watch-rule-summary {
+  font-size: 11px;
+  color: #aaa;
+  margin: 4px 0 2px;
+  font-family: monospace;
+}
+.watch-rule-feeds {
+  font-size: 10px;
+  color: #777;
+  margin-bottom: 6px;
+}
+.watch-rule-last {
+  font-size: 10px;
+  color: #555;
+}
+.watch-rule-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.watch-rule-actions button {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #888;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.watch-rule-actions button:hover {
+  color: #fff;
+  border-color: #555;
+}
+.watch-rule-actions .watch-rule-delete:hover {
+  color: #ef4444;
+  border-color: rgba(239,68,68,0.5);
+}
+.watch-new-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed #333;
+  color: #888;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.watch-new-btn:hover {
+  color: #ff6600;
+  border-color: rgba(255,102,0,0.5);
+  background: rgba(255,102,0,0.04);
+}
+
+/* ── Watch rule form ── */
+.watch-form {
+  margin-top: 8px;
+  background: #0a0a0a;
+  border: 1px solid #1e1e1e;
+  border-radius: 6px;
+  padding: 12px;
+}
+.watch-form-row {
+  margin-bottom: 12px;
+}
+.watch-form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #aaa;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.watch-input {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #eee;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.watch-input:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+.watch-feeds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.watch-feed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #ccc;
+  cursor: pointer;
+}
+.watch-feed input[type="checkbox"] {
+  accent-color: #ff6600;
+}
+.watch-conds {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.watch-cond {
+  display: grid;
+  grid-template-columns: 70px 50px 1fr;
+  gap: 6px;
+  align-items: center;
+}
+.watch-cond-field {
+  font-size: 12px;
+  color: #bbb;
+}
+.watch-op-select {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #eee;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 12px;
+  font-family: inherit;
+}
+.watch-cond-val {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #eee;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-family: inherit;
+  width: 100%;
+}
+.watch-cond-val:focus, .watch-op-select:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+.watch-hint {
+  font-size: 10px;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.watch-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+.watch-cancel-btn,
+.watch-save-btn {
+  border: 1px solid #2a2a2a;
+  background: #1a1a1a;
+  color: #ccc;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.watch-cancel-btn:hover { color: #fff; border-color: #555; }
+.watch-save-btn {
+  background: #ff6600;
+  border-color: #ff6600;
+  color: #fff;
+  font-weight: 600;
+}
+.watch-save-btn:hover { background: #ff8533; }
+
+/* ── NODUS CTA strip — sticky bottom of side panel ── */
+.nodus-cta {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #0a0a0a 0%, #131110 100%);
+  border-top: 1px solid #1a1a1a;
+  color: #aaa;
+  font-size: 11.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+  z-index: 50;
+}
+.nodus-cta:hover {
+  color: #fff;
+  background: linear-gradient(90deg, #0f0a05 0%, #1c1308 100%);
+}
+.nodus-cta-mark {
+  color: #ff6600;
+  text-shadow: 0 0 6px rgba(255, 102, 0, 0.6);
+  font-size: 11px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.nodus-cta-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nodus-cta-arrow {
+  color: #777;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.nodus-cta:hover .nodus-cta-arrow { color: #ff6600; }

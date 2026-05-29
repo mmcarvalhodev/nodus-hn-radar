@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Créé par NODUS", openHN: "Ouvrir Hacker News", openSite: "Ouvrir le site HN Radar" },
   master: { enabled: "Lens activé", hint: "Couche de lecture visuelle sur news.ycombinator.com" },
-  panels: { pinned: "Épinglés", radar: "Radar", settings: "Paramètres du Lens", comingSoon: "bientôt" },
+  watch: {
+    tab:             "Surveiller",
+    intro:           "Soyez alerté quand des posts dépassent vos seuils. La surveillance ne fonctionne que pendant que ce panneau est ouvert — pas de tâche en arrière-plan, pas d'autorisation de notifications.",
+    newRule:         "+ Nouvelle règle",
+    edit:            "Modifier",
+    delete:          "Supprimer",
+    ruleName:        "Nom de la règle",
+    ruleNamePh:      "ex : Gros posts Show HN",
+    feeds:           "Surveiller sur",
+    conditions:      "Conditions",
+    condsHint:       "Laissez une valeur vide pour ignorer cette condition. Toutes les conditions remplies doivent correspondre (ET).",
+    points:          "Points",
+    comments:        "Commentaires",
+    velocity:        "Vélocité",
+    save:            "Enregistrer la règle",
+    cancel:          "Annuler",
+    notifications:   "Notifications",
+    markAllRead:     "Tout marquer comme lu",
+    noNotifications: "Aucune nouvelle correspondance.",
+    manageRules:     "Gérer les règles ⚙",
+    lastMatchNever:  "Aucune correspondance",
+    lastMatch:       "Dernière correspondance : {time}",
+    matches:         "{n} correspondances",
+    match:           "1 correspondance"
+  },
+  cta: {
+    lostAIPitch: "Vos conversations IA s'évaporent ?",
+    lostAITitle: "Ouvrir NODUS — capturer les conversations IA"
+  },
+  panels: { pinned: "Épinglés", radar: "Radar", watch: "Surveiller", settings: "Paramètres du Lens", comingSoon: "bientôt" },
   pinned: {
     empty: "Aucun post épinglé.",
     hint: "Cliquez sur 📌 à côté d'un post sur Hacker News pour le suivre ici.",

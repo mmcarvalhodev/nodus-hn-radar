@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Создано NODUS", openHN: "Открыть Hacker News", openSite: "Открыть сайт HN Radar" },
   master: { enabled: "Lens включён", hint: "Визуальный слой чтения на news.ycombinator.com" },
-  panels: { pinned: "Закреплённые", radar: "Радар", settings: "Настройки Lens", comingSoon: "скоро" },
+  watch: {
+    tab:             "Наблюдение",
+    intro:           "Получайте уведомления, когда посты пересекают ваши пороги. Опрос работает только пока эта панель открыта — без фоновых задач, без разрешения на уведомления.",
+    newRule:         "+ Новое правило",
+    edit:            "Изменить",
+    delete:          "Удалить",
+    ruleName:        "Название правила",
+    ruleNamePh:      "напр.: Крупные Show HN посты",
+    feeds:           "Наблюдать в",
+    conditions:      "Условия",
+    condsHint:       "Оставьте значение пустым, чтобы пропустить это условие. Все заполненные условия должны совпадать (И).",
+    points:          "Очки",
+    comments:        "Комментарии",
+    velocity:        "Скорость",
+    save:            "Сохранить правило",
+    cancel:          "Отмена",
+    notifications:   "Уведомления",
+    markAllRead:     "Отметить всё как прочитанное",
+    noNotifications: "Нет новых совпадений.",
+    manageRules:     "Управление правилами ⚙",
+    lastMatchNever:  "Пока нет совпадений",
+    lastMatch:       "Последнее совпадение: {time}",
+    matches:         "{n} совпадений",
+    match:           "1 совпадение"
+  },
+  cta: {
+    lostAIPitch: "Теряете беседы с ИИ?",
+    lostAITitle: "Открыть NODUS — сохранить беседы с ИИ"
+  },
+  panels: { pinned: "Закреплённые", radar: "Радар", watch: "Наблюдение", settings: "Настройки Lens", comingSoon: "скоро" },
   pinned: {
     empty: "Нет закреплённых постов.",
     hint: "Нажмите 📌 рядом с любым постом на Hacker News, чтобы отслеживать его здесь.",

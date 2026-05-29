@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "NODUS द्वारा निर्मित", openHN: "Hacker News खोलें", openSite: "HN Radar वेबसाइट खोलें" },
   master: { enabled: "Lens सक्षम", hint: "news.ycombinator.com पर पठन परत" },
-  panels: { pinned: "पिन किए गए", radar: "रडार", settings: "Lens सेटिंग्स", comingSoon: "जल्द आ रहा है" },
+  watch: {
+    tab:             "निगरानी",
+    intro:           "जब पोस्ट आपकी सीमा पार करें तो अलर्ट पाएं। पोलिंग केवल जब यह पैनल खुला हो तभी चलती है — कोई बैकग्राउंड काम नहीं, कोई नोटिफिकेशन अनुमति नहीं।",
+    newRule:         "+ नया नियम",
+    edit:            "संपादित",
+    delete:          "हटाएं",
+    ruleName:        "नियम का नाम",
+    ruleNamePh:      "जैसे: बड़े Show HN पोस्ट",
+    feeds:           "निगरानी करें",
+    conditions:      "शर्तें",
+    condsHint:       "किसी भी मान को खाली छोड़ें ताकि वह शर्त छोड़ी जाए। सभी भरी शर्तें मेल खानी चाहिए (AND)।",
+    points:          "अंक",
+    comments:        "टिप्पणियाँ",
+    velocity:        "वेलोसिटी",
+    save:            "नियम सहेजें",
+    cancel:          "रद्द करें",
+    notifications:   "सूचनाएं",
+    markAllRead:     "सभी पढ़े हुए चिह्नित करें",
+    noNotifications: "कोई नया मिलान नहीं।",
+    manageRules:     "नियम प्रबंधित करें ⚙",
+    lastMatchNever:  "अभी तक कोई मिलान नहीं",
+    lastMatch:       "अंतिम मिलान: {time}",
+    matches:         "{n} मिलान",
+    match:           "1 मिलान"
+  },
+  cta: {
+    lostAIPitch: "अपनी AI बातचीत खो रहे हैं?",
+    lostAITitle: "NODUS खोलें — AI बातचीत कैप्चर करें"
+  },
+  panels: { pinned: "पिन किए गए", radar: "रडार", watch: "निगरानी", settings: "Lens सेटिंग्स", comingSoon: "जल्द आ रहा है" },
   pinned: {
     empty: "कोई पिन किया हुआ पोस्ट नहीं।",
     hint: "Hacker News पर किसी भी पोस्ट के बगल में 📌 क्लिक करें।",

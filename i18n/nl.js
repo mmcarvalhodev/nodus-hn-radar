@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Gemaakt door NODUS", openHN: "Open Hacker News", openSite: "HN Radar-website openen" },
   master: { enabled: "Lens ingeschakeld", hint: "Visuele leeslaag op news.ycombinator.com" },
-  panels: { pinned: "Vastgezet", radar: "Radar", settings: "Lens-instellingen", comingSoon: "binnenkort" },
+  watch: {
+    tab:             "Volgen",
+    intro:           "Krijg een melding wanneer posts je drempels overschrijden. Polling draait alleen terwijl dit paneel open is — geen achtergrondwerk, geen meldingstoestemming.",
+    newRule:         "+ Nieuwe regel",
+    edit:            "Bewerken",
+    delete:          "Verwijderen",
+    ruleName:        "Regelnaam",
+    ruleNamePh:      "bv. Grote Show HN-posts",
+    feeds:           "Volgen op",
+    conditions:      "Voorwaarden",
+    condsHint:       "Laat een waarde leeg om die voorwaarde over te slaan. Alle ingevulde voorwaarden moeten overeenkomen (EN).",
+    points:          "Punten",
+    comments:        "Reacties",
+    velocity:        "Snelheid",
+    save:            "Regel opslaan",
+    cancel:          "Annuleren",
+    notifications:   "Meldingen",
+    markAllRead:     "Alles als gelezen markeren",
+    noNotifications: "Geen nieuwe treffers.",
+    manageRules:     "Regels beheren ⚙",
+    lastMatchNever:  "Nog geen treffer",
+    lastMatch:       "Laatste treffer: {time}",
+    matches:         "{n} treffers",
+    match:           "1 treffer"
+  },
+  cta: {
+    lostAIPitch: "AI-gesprekken kwijtraken?",
+    lostAITitle: "Open NODUS — AI-gesprekken vastleggen"
+  },
+  panels: { pinned: "Vastgezet", radar: "Radar", watch: "Volgen", settings: "Lens-instellingen", comingSoon: "binnenkort" },
   pinned: {
     empty: "Geen vastgezette posts.",
     hint: "Klik op 📌 naast een post op Hacker News om hem hier te volgen.",

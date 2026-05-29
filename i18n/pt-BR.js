@@ -9,9 +9,39 @@ export default {
     enabled: "Lens ativado",
     hint: "Camada de leitura visual em news.ycombinator.com"
   },
+  watch: {
+    tab:             "Vigiar",
+    intro:           "Receba alertas quando posts cruzarem seus limites. O monitoramento só roda enquanto este painel está aberto — sem trabalho em segundo plano, sem permissão de notificações.",
+    newRule:         "+ Nova regra",
+    edit:            "Editar",
+    delete:          "Excluir",
+    ruleName:        "Nome da regra",
+    ruleNamePh:      "ex: Grandes posts Show HN",
+    feeds:           "Vigiar em",
+    conditions:      "Condições",
+    condsHint:       "Deixe qualquer valor vazio para pular essa condição. Todas as condições preenchidas devem combinar (E).",
+    points:          "Pontos",
+    comments:        "Comentários",
+    velocity:        "Velocidade",
+    save:            "Salvar regra",
+    cancel:          "Cancelar",
+    notifications:   "Notificações",
+    markAllRead:     "Marcar todas como lidas",
+    noNotifications: "Nenhuma correspondência nova.",
+    manageRules:     "Gerenciar regras ⚙",
+    lastMatchNever:  "Sem correspondência ainda",
+    lastMatch:       "Última correspondência: {time}",
+    matches:         "{n} correspondências",
+    match:           "1 correspondência"
+  },
+  cta: {
+    lostAIPitch: "Perdendo suas conversas com IA?",
+    lostAITitle: "Abrir NODUS — capturar conversas com IA"
+  },
   panels: {
     pinned:   "Fixados",
     radar:    "Radar",
+    watch:    "Vigiar",
     settings: "Configurações do Lens",
     comingSoon: "em breve"
   },

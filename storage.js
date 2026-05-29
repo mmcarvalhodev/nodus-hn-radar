@@ -297,3 +297,124 @@ export async function setCachedOPActive(postId, active) {
   map[String(postId)] = { active: !!active, ts: Date.now() };
   await setToStorage("opActiveCache", map);
 }
+
+// ── Watchlist rules (Phase 3a) ──────────────────────────────
+// Rules live as an array under "watchRules". Schema:
+//   { id, name, enabled, feeds: [...], predicates: { field: {gte|lte|eq: n} },
+//     createdAt, lastMatchAt, lastMatchCount }
+
+const WATCH_RULES_KEY  = "watchRules";
+const WATCH_FIRED_KEY  = "watchFired";
+const WATCH_UNREAD_KEY = "watchUnread";
+const WATCH_FIRED_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+const WATCH_UNREAD_CAP   = 50;                  // keep last 50 in the bell
+
+export async function getWatchRules() {
+  const raw = await getFromStorage(WATCH_RULES_KEY);
+  return Array.isArray(raw) ? raw : [];
+}
+
+export async function saveWatchRules(rules) {
+  return setToStorage(WATCH_RULES_KEY, Array.isArray(rules) ? rules : []);
+}
+
+function uuid() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+  return "wr-" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+}
+
+export async function addWatchRule(rule) {
+  const rules = await getWatchRules();
+  const full = {
+    id:        rule.id || uuid(),
+    name:      String(rule.name || "Untitled rule").slice(0, 60),
+    enabled:   rule.enabled !== false,
+    feeds:     Array.isArray(rule.feeds) ? rule.feeds : ["top"],
+    predicates: rule.predicates && typeof rule.predicates === "object" ? rule.predicates : {},
+    createdAt: Date.now(),
+    lastMatchAt: null,
+    lastMatchCount: 0,
+  };
+  rules.push(full);
+  await saveWatchRules(rules);
+  return full;
+}
+
+export async function updateWatchRule(id, patch) {
+  const rules = await getWatchRules();
+  const idx = rules.findIndex((r) => r.id === id);
+  if (idx === -1) return null;
+  rules[idx] = { ...rules[idx], ...patch };
+  await saveWatchRules(rules);
+  return rules[idx];
+}
+
+export async function deleteWatchRule(id) {
+  const rules = await getWatchRules();
+  const next = rules.filter((r) => r.id !== id);
+  await saveWatchRules(next);
+  // Also drop fired entries for this rule
+  const fired = await getWatchFired();
+  for (const key of Object.keys(fired)) {
+    if (key.startsWith(`${id}::`)) delete fired[key];
+  }
+  await recordWatchFired(fired);
+  return next;
+}
+
+// ── Watchlist idempotence cache ──
+// Map "ruleId::postId" -> firedAt (ms). 24h TTL.
+
+export async function getWatchFired() {
+  return (await getFromStorage(WATCH_FIRED_KEY)) || {};
+}
+
+export async function recordWatchFired(map) {
+  return setToStorage(WATCH_FIRED_KEY, map || {});
+}
+
+export async function pruneWatchFired() {
+  const map = await getWatchFired();
+  const now = Date.now();
+  let mutated = false;
+  for (const [key, ts] of Object.entries(map)) {
+    if (now - ts > WATCH_FIRED_TTL_MS) {
+      delete map[key];
+      mutated = true;
+    }
+  }
+  if (mutated) await recordWatchFired(map);
+  return map;
+}
+
+// ── Watchlist unread queue (bell badge) ──
+// Array of recent match descriptors. Capped to WATCH_UNREAD_CAP entries.
+
+export async function getWatchUnread() {
+  const arr = await getFromStorage(WATCH_UNREAD_KEY);
+  return Array.isArray(arr) ? arr : [];
+}
+
+export async function setWatchUnread(arr) {
+  return setToStorage(WATCH_UNREAD_KEY, Array.isArray(arr) ? arr : []);
+}
+
+export async function addWatchUnread(match) {
+  const arr = await getWatchUnread();
+  arr.unshift(match);                          // newest first
+  const trimmed = arr.slice(0, WATCH_UNREAD_CAP);
+  await setWatchUnread(trimmed);
+  return trimmed;
+}
+
+export async function clearWatchUnread() {
+  await setWatchUnread([]);
+  return [];
+}
+
+export async function removeWatchUnread(ruleId, postId) {
+  const arr = await getWatchUnread();
+  const next = arr.filter((m) => !(m.ruleId === ruleId && m.postId === postId));
+  await setWatchUnread(next);
+  return next;
+}

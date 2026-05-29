@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Hecho por NODUS", openHN: "Abrir Hacker News", openSite: "Abrir sitio del HN Radar" },
   master: { enabled: "Lens activado", hint: "Capa de lectura visual en news.ycombinator.com" },
-  panels: { pinned: "Fijados", radar: "Radar", settings: "Configuración del Lens", comingSoon: "pronto" },
+  watch: {
+    tab:             "Vigilar",
+    intro:           "Recibe alertas cuando los posts crucen tus umbrales. El monitoreo solo se ejecuta mientras este panel está abierto — sin trabajo en segundo plano, sin permiso de notificaciones.",
+    newRule:         "+ Nueva regla",
+    edit:            "Editar",
+    delete:          "Eliminar",
+    ruleName:        "Nombre de la regla",
+    ruleNamePh:      "ej: Grandes posts Show HN",
+    feeds:           "Vigilar en",
+    conditions:      "Condiciones",
+    condsHint:       "Deja cualquier valor vacío para omitir esa condición. Todas las condiciones rellenadas deben coincidir (Y).",
+    points:          "Puntos",
+    comments:        "Comentarios",
+    velocity:        "Velocidad",
+    save:            "Guardar regla",
+    cancel:          "Cancelar",
+    notifications:   "Notificaciones",
+    markAllRead:     "Marcar todo como leído",
+    noNotifications: "Sin coincidencias nuevas.",
+    manageRules:     "Gestionar reglas ⚙",
+    lastMatchNever:  "Aún sin coincidencias",
+    lastMatch:       "Última coincidencia: {time}",
+    matches:         "{n} coincidencias",
+    match:           "1 coincidencia"
+  },
+  cta: {
+    lostAIPitch: "¿Perdiendo tus conversaciones con IA?",
+    lostAITitle: "Abrir NODUS — capturar conversaciones con IA"
+  },
+  panels: { pinned: "Fijados", radar: "Radar", watch: "Vigilar", settings: "Configuración del Lens", comingSoon: "pronto" },
   pinned: {
     empty: "Sin posts fijados.",
     hint: "Haz clic en el 📌 junto a cualquier post en Hacker News para seguirlo aquí.",

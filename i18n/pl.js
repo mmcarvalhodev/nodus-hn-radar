@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Stworzone przez NODUS", openHN: "Otwórz Hacker News", openSite: "Otwórz stronę HN Radar" },
   master: { enabled: "Lens włączony", hint: "Wizualna warstwa czytania na news.ycombinator.com" },
-  panels: { pinned: "Przypięte", radar: "Radar", settings: "Ustawienia Lens", comingSoon: "wkrótce" },
+  watch: {
+    tab:             "Obserwuj",
+    intro:           "Otrzymuj powiadomienia, gdy posty przekraczają twoje progi. Sprawdzanie działa tylko, gdy ten panel jest otwarty — bez pracy w tle, bez uprawnień do powiadomień.",
+    newRule:         "+ Nowa reguła",
+    edit:            "Edytuj",
+    delete:          "Usuń",
+    ruleName:        "Nazwa reguły",
+    ruleNamePh:      "np. Duże posty Show HN",
+    feeds:           "Obserwuj w",
+    conditions:      "Warunki",
+    condsHint:       "Zostaw dowolną wartość pustą, aby pominąć ten warunek. Wszystkie wypełnione warunki muszą się zgadzać (I).",
+    points:          "Punkty",
+    comments:        "Komentarze",
+    velocity:        "Prędkość",
+    save:            "Zapisz regułę",
+    cancel:          "Anuluj",
+    notifications:   "Powiadomienia",
+    markAllRead:     "Oznacz wszystkie jako przeczytane",
+    noNotifications: "Brak nowych trafień.",
+    manageRules:     "Zarządzaj regułami ⚙",
+    lastMatchNever:  "Brak trafień",
+    lastMatch:       "Ostatnie trafienie: {time}",
+    matches:         "{n} trafień",
+    match:           "1 trafienie"
+  },
+  cta: {
+    lostAIPitch: "Tracisz swoje rozmowy z AI?",
+    lostAITitle: "Otwórz NODUS — zapisuj rozmowy z AI"
+  },
+  panels: { pinned: "Przypięte", radar: "Radar", watch: "Obserwuj", settings: "Ustawienia Lens", comingSoon: "wkrótce" },
   pinned: {
     empty: "Brak przypiętych postów.",
     hint: "Kliknij 📌 obok dowolnego posta na Hacker News, aby śledzić go tutaj.",

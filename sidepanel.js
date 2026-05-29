@@ -7,8 +7,13 @@ import {
   getCollapsedCards, setCardCollapsed,
   getRadarStore, updateRadarSnapshots, computeVelocityDetail,
   getMutedDomains, setMutedDomains,
-  getCachedOPActive, setCachedOPActive
+  getCachedOPActive, setCachedOPActive,
+  // Phase 3a — Watchlist
+  getWatchRules, addWatchRule, updateWatchRule, deleteWatchRule,
+  getWatchUnread, clearWatchUnread, removeWatchUnread
 } from "./storage.js";
+import { startWatcher, stopWatcher, onUnreadChange } from "./watcher.js";
+import { summarizeRule } from "./match-engine.js";
 import { fetchTopComments, relativeTime, commentToPlainText, translateText, isTranslatorAvailable } from "./hn-api.js";
 import { fetchListIds, fetchItemsBatch, extractDomain, detectItemType, checkOPActive } from "./hn-data.js";
 import { LANGUAGES, RTL_LANGS, detectLanguage, setLanguage, t, tr, applyI18n } from "./i18n.js";
@@ -145,6 +150,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ── Radar ────
   initRadar();
+
+  // ── Watch (Phase 3a) ────
+  initWatch();
+
+  // Stop polling when the panel is hidden — Chrome side panels don't fire
+  // beforeunload reliably, so we use visibilitychange as a defensive stop.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") stopWatcher();
+    else                                       startWatcher();
+  });
 });
 
 async function initCollapsiblePanels() {
@@ -874,4 +889,280 @@ function formatRelativeShort(seconds) {
 
 function escapeAttr(s) {
   return String(s).replace(/[^a-z0-9_-]/gi, "");
+}
+
+// ═══════════════════════════════════════════════════════════
+// Phase 3a — Watchlist (rules + bell + dropdown + form)
+// ═══════════════════════════════════════════════════════════
+
+let _editingRuleId = null;
+
+async function initWatch() {
+  await renderWatchRules();
+  await refreshBellBadge();
+  wireBell();
+  wireWatchForm();
+
+  // Watcher lifecycle: start now, watch storage for changes from other contexts
+  startWatcher();
+  onUnreadChange(() => refreshBellBadge(true));
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== "local") return;
+    if (changes.watchRules)  renderWatchRules();
+    if (changes.watchUnread) refreshBellBadge();
+  });
+}
+
+// ── Bell badge + dropdown ──
+
+async function refreshBellBadge(animate = false) {
+  const unread = await getWatchUnread();
+  const btn    = $("bell-btn");
+  const badge  = $("bell-badge");
+  if (!btn || !badge) return;
+  const n = unread.length;
+  if (n > 0) {
+    badge.hidden = false;
+    badge.textContent = n > 99 ? "99+" : String(n);
+    btn.classList.add("has-unread");
+    if (animate) {
+      btn.classList.remove("pulse");
+      void btn.offsetWidth; // force reflow to restart animation
+      btn.classList.add("pulse");
+    }
+  } else {
+    badge.hidden = true;
+    btn.classList.remove("has-unread");
+  }
+  // If dropdown is open, also re-render its contents
+  if ($("bell-dropdown") && !$("bell-dropdown").hidden) {
+    renderBellDropdown(unread);
+  }
+}
+
+function wireBell() {
+  const btn      = $("bell-btn");
+  const dropdown = $("bell-dropdown");
+  const markAll  = $("bell-mark-all");
+  const manage   = $("bell-manage");
+  if (!btn || !dropdown) return;
+
+  btn.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const open = !dropdown.hidden;
+    if (open) {
+      dropdown.hidden = true;
+      return;
+    }
+    const unread = await getWatchUnread();
+    renderBellDropdown(unread);
+    dropdown.hidden = false;
+  });
+
+  // Click outside closes
+  document.addEventListener("click", (e) => {
+    if (dropdown.hidden) return;
+    if (!dropdown.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+      dropdown.hidden = true;
+    }
+  });
+
+  markAll?.addEventListener("click", async () => {
+    await clearWatchUnread();
+    await refreshBellBadge();
+    renderBellDropdown([]);
+  });
+
+  manage?.addEventListener("click", () => {
+    dropdown.hidden = true;
+    const panel = $("watch-panel");
+    panel?.classList.remove("collapsed");
+    panel?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
+function renderBellDropdown(unread) {
+  const body = $("bell-dropdown-body");
+  if (!body) return;
+  if (!unread || unread.length === 0) {
+    body.innerHTML = `<div class="bell-empty">${tr("watch.noNotifications")}</div>`;
+    return;
+  }
+  // Group by ruleId
+  const groups = new Map();
+  for (const m of unread) {
+    if (!groups.has(m.ruleId)) groups.set(m.ruleId, { name: m.ruleName, items: [] });
+    groups.get(m.ruleId).items.push(m);
+  }
+  const parts = [];
+  for (const [ruleId, g] of groups) {
+    const hue = tagHue(g.name || ruleId);
+    parts.push(`<div class="bell-group">
+      <div class="bell-group-head">
+        <span class="bell-group-dot" style="background:hsl(${hue},65%,55%)"></span>
+        <span class="bell-group-name">${escapeHtml(g.name)}</span>
+        <span class="bell-group-count">${g.items.length === 1 ? tr("watch.match") : tr("watch.matches", { n: g.items.length })}</span>
+      </div>
+      ${g.items.map((m) => `
+        <a class="bell-match" href="${m.hnUrl}" target="_blank" rel="noopener noreferrer" data-rule="${escapeAttr(m.ruleId)}" data-post="${m.postId}">
+          <div class="bell-match-title">${escapeHtml(m.title)}</div>
+          <div class="bell-match-meta">${m.points} pts · ${m.comments} c${m.domain ? " · " + escapeHtml(m.domain) : ""}</div>
+        </a>`).join("")}
+    </div>`);
+  }
+  body.innerHTML = parts.join("");
+  // Wire click on each match: remove from unread
+  body.querySelectorAll(".bell-match").forEach((a) => {
+    a.addEventListener("click", async () => {
+      const r = a.dataset.rule;
+      const p = Number(a.dataset.post);
+      await removeWatchUnread(r, p);
+      await refreshBellBadge();
+    });
+  });
+}
+
+// ── Watch rule list + form ──
+
+async function renderWatchRules() {
+  const list  = $("watch-rules-list");
+  const count = $("watch-count");
+  if (!list) return;
+  const rules = await getWatchRules();
+  if (count) count.textContent = String(rules.length);
+  if (rules.length === 0) {
+    list.innerHTML = `<div class="watch-rule-empty" style="color:#666;font-size:11px;text-align:center;padding:12px;">No rules yet.</div>`;
+    return;
+  }
+  list.innerHTML = rules.map((r) => {
+    const hue = tagHue(r.name || r.id);
+    const summary = summarizeRule(r) || "(no conditions)";
+    const feeds = (r.feeds || []).join(", ").toUpperCase();
+    const last = r.lastMatchAt
+      ? tr("watch.lastMatch", { time: formatRelativeShort(Math.floor((Date.now() - r.lastMatchAt) / 1000)) + " ago" })
+      : tr("watch.lastMatchNever");
+    return `
+      <div class="watch-rule-card" data-rule-id="${escapeAttr(r.id)}">
+        <div class="watch-rule-head">
+          <span class="watch-rule-dot" style="background:hsl(${hue},65%,55%)"></span>
+          <span class="watch-rule-name">${escapeHtml(r.name)}</span>
+          <button class="watch-rule-toggle ${r.enabled ? "on" : ""}" data-rule-id="${escapeAttr(r.id)}" aria-label="Toggle rule"></button>
+        </div>
+        <div class="watch-rule-summary">${escapeHtml(summary)}</div>
+        <div class="watch-rule-feeds">on: ${escapeHtml(feeds || "—")}</div>
+        <div class="watch-rule-last">${escapeHtml(last)}</div>
+        <div class="watch-rule-actions">
+          <button class="watch-rule-edit"   data-rule-id="${escapeAttr(r.id)}">${tr("watch.edit")}</button>
+          <button class="watch-rule-delete" data-rule-id="${escapeAttr(r.id)}">${tr("watch.delete")}</button>
+        </div>
+      </div>`;
+  }).join("");
+
+  list.querySelectorAll(".watch-rule-toggle").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.ruleId;
+      const rules = await getWatchRules();
+      const r = rules.find((x) => x.id === id);
+      if (!r) return;
+      await updateWatchRule(id, { enabled: !r.enabled });
+      renderWatchRules();
+    });
+  });
+  list.querySelectorAll(".watch-rule-edit").forEach((btn) => {
+    btn.addEventListener("click", async () => openWatchForm(btn.dataset.ruleId));
+  });
+  list.querySelectorAll(".watch-rule-delete").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      if (!confirm("Delete this rule?")) return;
+      await deleteWatchRule(btn.dataset.ruleId);
+      renderWatchRules();
+    });
+  });
+}
+
+function wireWatchForm() {
+  $("watch-new-btn")?.addEventListener("click", () => openWatchForm(null));
+  $("watch-cancel-btn")?.addEventListener("click", closeWatchForm);
+  $("watch-save-btn")?.addEventListener("click", saveWatchForm);
+}
+
+async function openWatchForm(ruleId) {
+  const form = $("watch-form");
+  if (!form) return;
+  _editingRuleId = ruleId;
+
+  let r = { name: "", feeds: ["top"], predicates: {}, enabled: true };
+  if (ruleId) {
+    const all = await getWatchRules();
+    const existing = all.find((x) => x.id === ruleId);
+    if (existing) r = existing;
+  }
+
+  $("watch-name").value         = r.name || "";
+  $("watch-feed-top").checked   = (r.feeds || []).includes("top");
+  $("watch-feed-show").checked  = (r.feeds || []).includes("show");
+  $("watch-feed-ask").checked   = (r.feeds || []).includes("ask");
+  $("watch-feed-best").checked  = (r.feeds || []).includes("best");
+
+  ["points", "comments", "velocity"].forEach((field) => {
+    const pred = (r.predicates || {})[field] || {};
+    const op = Object.keys(pred)[0] || "gte";
+    const val = pred[op];
+    $(`watch-${field}-op`).value = op;
+    $(`watch-${field}-val`).value = (val ?? "");
+  });
+
+  form.hidden = false;
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function closeWatchForm() {
+  const form = $("watch-form");
+  if (!form) return;
+  form.hidden = true;
+  _editingRuleId = null;
+}
+
+async function saveWatchForm() {
+  const name = $("watch-name").value.trim();
+  if (!name) {
+    alert("Please give the rule a name.");
+    return;
+  }
+  const feeds = ["top", "show", "ask", "best"].filter((f) => $(`watch-feed-${f}`)?.checked);
+  if (feeds.length === 0) {
+    alert("Pick at least one feed to watch.");
+    return;
+  }
+  const predicates = {};
+  for (const field of ["points", "comments", "velocity"]) {
+    const op  = $(`watch-${field}-op`).value;
+    const raw = $(`watch-${field}-val`).value;
+    if (raw === "" || raw == null) continue;
+    const n = Number(raw);
+    if (!Number.isFinite(n)) continue;
+    predicates[field] = { [op]: n };
+  }
+  if (Object.keys(predicates).length === 0) {
+    alert("Fill at least one condition.");
+    return;
+  }
+
+  if (_editingRuleId) {
+    await updateWatchRule(_editingRuleId, { name, feeds, predicates });
+  } else {
+    await addWatchRule({ name, feeds, predicates, enabled: true });
+  }
+  closeWatchForm();
+  renderWatchRules();
+}
+
+function escapeHtml(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }

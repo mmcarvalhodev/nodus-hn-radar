@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Tạo bởi NODUS", openHN: "Mở Hacker News", openSite: "Mở trang web HN Radar" },
   master: { enabled: "Lens đang bật", hint: "Lớp đọc trực quan trên news.ycombinator.com" },
-  panels: { pinned: "Đã ghim", radar: "Radar", settings: "Cài đặt Lens", comingSoon: "sắp ra mắt" },
+  watch: {
+    tab:             "Theo dõi",
+    intro:           "Nhận thông báo khi bài viết vượt ngưỡng của bạn. Việc kiểm tra chỉ chạy khi panel này mở — không có công việc nền, không cần quyền thông báo.",
+    newRule:         "+ Quy tắc mới",
+    edit:            "Sửa",
+    delete:          "Xóa",
+    ruleName:        "Tên quy tắc",
+    ruleNamePh:      "vd: Bài Show HN lớn",
+    feeds:           "Theo dõi trên",
+    conditions:      "Điều kiện",
+    condsHint:       "Để trống giá trị nào để bỏ qua điều kiện đó. Tất cả điều kiện đã điền phải khớp (VÀ).",
+    points:          "Điểm",
+    comments:        "Bình luận",
+    velocity:        "Vận tốc",
+    save:            "Lưu quy tắc",
+    cancel:          "Hủy",
+    notifications:   "Thông báo",
+    markAllRead:     "Đánh dấu tất cả đã đọc",
+    noNotifications: "Không có kết quả khớp mới.",
+    manageRules:     "Quản lý quy tắc ⚙",
+    lastMatchNever:  "Chưa có kết quả khớp",
+    lastMatch:       "Khớp gần nhất: {time}",
+    matches:         "{n} kết quả khớp",
+    match:           "1 kết quả khớp"
+  },
+  cta: {
+    lostAIPitch: "Mất các cuộc trò chuyện AI?",
+    lostAITitle: "Mở NODUS — lưu cuộc trò chuyện AI"
+  },
+  panels: { pinned: "Đã ghim", radar: "Radar", watch: "Theo dõi", settings: "Cài đặt Lens", comingSoon: "sắp ra mắt" },
   pinned: {
     empty: "Không có bài viết được ghim.",
     hint: "Nhấp 📌 cạnh bất kỳ bài viết nào trên Hacker News để theo dõi tại đây.",

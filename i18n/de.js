@@ -1,7 +1,36 @@
 export default {
   app: { name: "NODUS HN Radar", brand: "Von NODUS", openHN: "Hacker News öffnen", openSite: "HN Radar-Webseite öffnen" },
   master: { enabled: "Lens aktiviert", hint: "Visuelle Leseebene auf news.ycombinator.com" },
-  panels: { pinned: "Angepinnt", radar: "Radar", settings: "Lens-Einstellungen", comingSoon: "bald" },
+  watch: {
+    tab:             "Beobachten",
+    intro:           "Werde benachrichtigt, wenn Posts deine Schwellen überschreiten. Das Polling läuft nur, solange dieses Panel offen ist — keine Hintergrundarbeit, keine Benachrichtigungsberechtigung.",
+    newRule:         "+ Neue Regel",
+    edit:            "Bearbeiten",
+    delete:          "Löschen",
+    ruleName:        "Regelname",
+    ruleNamePh:      "z. B. Große Show-HN-Posts",
+    feeds:           "Beobachten in",
+    conditions:      "Bedingungen",
+    condsHint:       "Lass einen Wert leer, um diese Bedingung zu überspringen. Alle ausgefüllten Bedingungen müssen zutreffen (UND).",
+    points:          "Punkte",
+    comments:        "Kommentare",
+    velocity:        "Velocity",
+    save:            "Regel speichern",
+    cancel:          "Abbrechen",
+    notifications:   "Benachrichtigungen",
+    markAllRead:     "Alle als gelesen markieren",
+    noNotifications: "Keine neuen Treffer.",
+    manageRules:     "Regeln verwalten ⚙",
+    lastMatchNever:  "Noch kein Treffer",
+    lastMatch:       "Letzter Treffer: {time}",
+    matches:         "{n} Treffer",
+    match:           "1 Treffer"
+  },
+  cta: {
+    lostAIPitch: "KI-Gespräche gehen verloren?",
+    lostAITitle: "NODUS öffnen — KI-Gespräche erfassen"
+  },
+  panels: { pinned: "Angepinnt", radar: "Radar", watch: "Beobachten", settings: "Lens-Einstellungen", comingSoon: "bald" },
   pinned: {
     empty: "Keine angepinnten Posts.",
     hint: "Klicke auf 📌 neben einem Post auf Hacker News, um ihn hier zu verfolgen.",
