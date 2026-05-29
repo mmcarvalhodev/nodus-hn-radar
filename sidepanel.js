@@ -13,7 +13,7 @@ import {
   getWatchUnread, clearWatchUnread, removeWatchUnread,
   WATCH_RULES_MAX
 } from "./storage.js";
-import { startWatcher, stopWatcher, onUnreadChange } from "./watcher.js";
+import { startWatcher, stopWatcher, onUnreadChange, triggerTick } from "./watcher.js";
 import { summarizeRule } from "./match-engine.js";
 import { fetchTopComments, relativeTime, commentToPlainText, translateText, isTranslatorAvailable } from "./hn-api.js";
 import { fetchListIds, fetchItemsBatch, extractDomain, detectItemType, checkOPActive } from "./hn-data.js";
@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       setLanguage(newLang);
       document.documentElement.dir = RTL_LANGS.has(newLang) ? "rtl" : "ltr";
       applyI18n();
+      applyCtaPitch();
       await saveSettings(settings);
       updateTransHint();
       renderPinned();
@@ -154,6 +155,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ── Watch (Phase 3a) ────
   initWatch();
+
+  // ── NODUS CTA strip — daily-rotating pitch ────
+  applyCtaPitch();
 
   // Stop polling when the panel is hidden — Chrome side panels don't fire
   // beforeunload reliably, so we use visibilitychange as a defensive stop.
@@ -1082,8 +1086,10 @@ async function renderWatchRules() {
     input.addEventListener("change", async () => {
       const id = input.dataset.ruleId;
       await updateWatchRule(id, { enabled: input.checked });
-      // No full re-render needed for a toggle; but renderWatchRules keeps
-      // the rest consistent (lastMatch refresh, etc.) — cheap enough.
+      // When the user just enabled a rule, fire an out-of-band tick so they
+      // see matches immediately instead of waiting up to 90s for the next
+      // scheduled tick. Disabling needs no extra work.
+      if (input.checked) triggerTick();
       renderWatchRules();
     });
   });
@@ -1219,6 +1225,9 @@ async function saveWatchForm() {
   }
   closeWatchForm();
   renderWatchRules();
+  // Fire an out-of-band tick so the just-saved rule is evaluated against
+  // a fresh fetch right away, not 90 seconds later.
+  triggerTick();
 }
 
 function escapeHtml(s) {
@@ -1228,4 +1237,35 @@ function escapeHtml(s) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+// ═══════════════════════════════════════════════════════════
+// NODUS CTA strip — daily-rotating pitch
+// ═══════════════════════════════════════════════════════════
+//
+// 12 pitches grouped by pain category (loss, organization, productivity,
+// curiosity) and interleaved so successive days cycle through different
+// angles. Rotation is deterministic per UTC day, not random — same pitch
+// is shown to the same user all day, every panel reopens. Next day it
+// rotates. After 12 days it cycles back to pitch01.
+//
+// We rewrite the data-i18n attribute so the next applyI18n() call (e.g.
+// on language change) re-resolves to the right localized string.
+const CTA_PITCH_COUNT = 12;
+
+function pickDailyPitchKey() {
+  const dayIndex = Math.floor(Date.now() / 86400000);
+  const n = (dayIndex % CTA_PITCH_COUNT) + 1; // 1..12
+  return `cta.pitch${String(n).padStart(2, "0")}`;
+}
+
+function applyCtaPitch() {
+  const el = document.querySelector(".nodus-cta-text");
+  if (!el) return;
+  const key = pickDailyPitchKey();
+  el.setAttribute("data-i18n", key);
+  const text = tr(key);
+  // Fallback to the legacy static pitch if the daily key is missing in
+  // the current locale (shouldn't happen, but defensive)
+  el.textContent = (text && text !== key) ? text : tr("cta.lostAIPitch");
 }

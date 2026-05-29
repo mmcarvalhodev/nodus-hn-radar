@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "AI-gesprekken kwijtraken?",
-    lostAITitle: "Open NODUS — AI-gesprekken vastleggen"
+    lostAITitle: "Open NODUS — AI-gesprekken vastleggen",
+    pitch01: "AI-antwoorden kwijtraken?",
+    pitch02: "Organiseer je beste AI-antwoorden",
+    pitch03: "Stop met kopiëren en plakken tussen chats",
+    pitch04: "AI antwoordt. NODUS onthoudt.",
+    pitch05: "Vind je dat antwoord niet meer terug?",
+    pitch06: "Maak van antwoorden herbruikbare kennis",
+    pitch07: "Hergebruik ideeën zonder context te verliezen",
+    pitch08: "Wat gebeurt er met je beste AI-antwoorden?",
+    pitch09: "Je beste antwoorden horen niet in een chat te blijven",
+    pitch10: "Vastleggen. Ordenen. Hergebruiken.",
+    pitch11: "Waardevol antwoord gevonden? Bewaar het.",
+    pitch12: "Geheugen voor je AI-gesprekken"
   },
   panels: { pinned: "Vastgezet", radar: "Radar", watch: "Volgen", settings: "Lens-instellingen", comingSoon: "binnenkort" },
   pinned: {

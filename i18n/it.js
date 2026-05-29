@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "Stai perdendo le conversazioni IA?",
-    lostAITitle: "Apri NODUS — cattura conversazioni IA"
+    lostAITitle: "Apri NODUS — cattura conversazioni IA",
+    pitch01: "Stai perdendo le risposte dell'IA?",
+    pitch02: "Organizza le tue migliori risposte IA",
+    pitch03: "Basta copia-incolla tra le chat",
+    pitch04: "L'IA risponde. NODUS ricorda.",
+    pitch05: "Non ritrovi più quella risposta?",
+    pitch06: "Trasforma le risposte in conoscenza riutilizzabile",
+    pitch07: "Riusa le idee senza perdere il contesto",
+    pitch08: "Che fine fanno le tue migliori risposte IA?",
+    pitch09: "Le tue migliori risposte non meritano di restare in una chat",
+    pitch10: "Cattura. Organizza. Riusa.",
+    pitch11: "Trovata una risposta preziosa? Salvala.",
+    pitch12: "Memoria per le tue conversazioni IA"
   },
   panels: { pinned: "Fissati", radar: "Radar", watch: "Sorveglia", settings: "Impostazioni Lens", comingSoon: "presto" },
   pinned: {

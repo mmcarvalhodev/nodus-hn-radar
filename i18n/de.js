@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "KI-Gespräche gehen verloren?",
-    lostAITitle: "NODUS öffnen — KI-Gespräche erfassen"
+    lostAITitle: "NODUS öffnen — KI-Gespräche erfassen",
+    pitch01: "Verlierst du deine KI-Antworten?",
+    pitch02: "Organisiere deine besten KI-Antworten",
+    pitch03: "Schluss mit Copy-Paste zwischen Chats",
+    pitch04: "KI antwortet. NODUS erinnert sich.",
+    pitch05: "Findest du diese Antwort nicht wieder?",
+    pitch06: "Mache Antworten zu wiederverwendbarem Wissen",
+    pitch07: "Ideen wiederverwenden, ohne Kontext zu verlieren",
+    pitch08: "Was passiert mit deinen besten KI-Antworten danach?",
+    pitch09: "Deine besten Antworten gehören nicht in einen Chat",
+    pitch10: "Erfassen. Ordnen. Wiederverwenden.",
+    pitch11: "Wertvolle Antwort gefunden? Speichere sie.",
+    pitch12: "Gedächtnis für deine KI-Gespräche"
   },
   panels: { pinned: "Angepinnt", radar: "Radar", watch: "Beobachten", settings: "Lens-Einstellungen", comingSoon: "bald" },
   pinned: {

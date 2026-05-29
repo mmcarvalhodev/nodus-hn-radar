@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "AI sohbetlerinizi kaybediyor musunuz?",
-    lostAITitle: "NODUS'u aç — AI sohbetlerini yakala"
+    lostAITitle: "NODUS'u aç — AI sohbetlerini yakala",
+    pitch01: "AI cevaplarınızı kaybediyor musunuz?",
+    pitch02: "En iyi AI cevaplarınızı düzenleyin",
+    pitch03: "Sohbetler arası kopyala-yapıştıra son verin",
+    pitch04: "AI cevaplar. NODUS hatırlar.",
+    pitch05: "O cevabı bir daha bulamıyor musunuz?",
+    pitch06: "Cevapları yeniden kullanılabilir bilgiye dönüştürün",
+    pitch07: "Bağlamı kaybetmeden fikirleri yeniden kullanın",
+    pitch08: "En iyi AI cevaplarınıza sonra ne oluyor?",
+    pitch09: "En iyi cevaplarınız bir sohbette sıkışıp kalmamalı",
+    pitch10: "Yakala. Düzenle. Yeniden kullan.",
+    pitch11: "Değerli bir cevap mı buldunuz? Saklayın.",
+    pitch12: "AI sohbetleriniz için hafıza"
   },
   panels: { pinned: "Sabitlenenler", radar: "Radar", watch: "İzle", settings: "Lens ayarları", comingSoon: "yakında" },
   pinned: {

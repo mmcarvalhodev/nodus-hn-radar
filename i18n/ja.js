@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "AI との会話を失っていませんか?",
-    lostAITitle: "NODUS を開く — AI 会話を保存"
+    lostAITitle: "NODUS を開く — AI 会話を保存",
+    pitch01: "AI の回答、失っていませんか?",
+    pitch02: "ベストな AI 回答を整理する",
+    pitch03: "チャット間のコピペはもう終わり",
+    pitch04: "AI が答える。NODUS が覚える。",
+    pitch05: "あの回答、もう見つからない?",
+    pitch06: "回答を再利用できる知識に変える",
+    pitch07: "文脈を失わずにアイデアを再利用",
+    pitch08: "ベストな AI 回答、その後どうしてる?",
+    pitch09: "大切な回答をチャットに埋もれさせない",
+    pitch10: "保存。整理。再利用。",
+    pitch11: "良い回答を見つけた?保存しよう。",
+    pitch12: "AI 会話のための記憶"
   },
   panels: { pinned: "ピン留め", radar: "レーダー", watch: "監視", settings: "Lens 設定", comingSoon: "近日公開" },
   pinned: {

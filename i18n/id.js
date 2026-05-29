@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "Kehilangan percakapan AI Anda?",
-    lostAITitle: "Buka NODUS — tangkap percakapan AI"
+    lostAITitle: "Buka NODUS — tangkap percakapan AI",
+    pitch01: "Kehilangan jawaban AI Anda?",
+    pitch02: "Atur jawaban AI terbaik Anda",
+    pitch03: "Berhenti salin-tempel antar chat",
+    pitch04: "AI menjawab. NODUS mengingat.",
+    pitch05: "Tidak bisa menemukan jawaban itu lagi?",
+    pitch06: "Ubah jawaban menjadi pengetahuan yang bisa dipakai ulang",
+    pitch07: "Pakai ulang ide tanpa kehilangan konteks",
+    pitch08: "Apa yang terjadi pada jawaban AI terbaik Anda?",
+    pitch09: "Jawaban terbaik Anda tak seharusnya terjebak di chat",
+    pitch10: "Tangkap. Atur. Pakai ulang.",
+    pitch11: "Menemukan jawaban berharga? Simpan.",
+    pitch12: "Memori untuk percakapan AI Anda"
   },
   panels: { pinned: "Disematkan", radar: "Radar", watch: "Pantau", settings: "Pengaturan Lens", comingSoon: "segera hadir" },
   pinned: {

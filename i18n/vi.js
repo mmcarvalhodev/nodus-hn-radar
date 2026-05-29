@@ -35,7 +35,19 @@ export default {
   },
   cta: {
     lostAIPitch: "Mất các cuộc trò chuyện AI?",
-    lostAITitle: "Mở NODUS — lưu cuộc trò chuyện AI"
+    lostAITitle: "Mở NODUS — lưu cuộc trò chuyện AI",
+    pitch01: "Đang mất các câu trả lời AI?",
+    pitch02: "Sắp xếp các câu trả lời AI tốt nhất",
+    pitch03: "Ngừng sao chép giữa các cuộc trò chuyện",
+    pitch04: "AI trả lời. NODUS ghi nhớ.",
+    pitch05: "Không tìm lại được câu trả lời đó?",
+    pitch06: "Biến câu trả lời thành kiến thức tái sử dụng",
+    pitch07: "Tái sử dụng ý tưởng mà không mất ngữ cảnh",
+    pitch08: "Sau đó những câu trả lời AI tốt nhất sẽ ra sao?",
+    pitch09: "Câu trả lời quý giá không nên kẹt trong một cuộc chat",
+    pitch10: "Lưu. Sắp xếp. Tái sử dụng.",
+    pitch11: "Tìm thấy câu trả lời hay? Lưu lại đi.",
+    pitch12: "Bộ nhớ cho các cuộc trò chuyện AI của bạn"
   },
   panels: { pinned: "Đã ghim", radar: "Radar", watch: "Theo dõi", settings: "Cài đặt Lens", comingSoon: "sắp ra mắt" },
   pinned: {

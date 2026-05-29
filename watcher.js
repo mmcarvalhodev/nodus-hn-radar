@@ -16,23 +16,26 @@ const DEFAULT_INTERVAL_MS = 90 * 1000;      // 90s — polite to the public HN A
 const PER_FEED_BATCH      = 30;             // top 30 from each watched feed
 const FEED_IDS            = ["top", "show", "ask", "best"];
 
-let _timer    = null;
-let _running  = false;
-let _onChange = null; // (unreadCount) => void
+let _timer       = null;
+let _running     = false;
+let _onChange    = null; // (unreadCount) => void
+let _ticking     = false;
+let _lastTickAt  = 0;
+let _triggerTimer = null;
 
 export function startWatcher(intervalMs = DEFAULT_INTERVAL_MS) {
   if (_timer) return;
   _running = true;
   // Fire one tick immediately on start so the UI feels responsive
-  tick().catch((err) => console.warn("[HN Radar] watcher tick:", err));
-  _timer = setInterval(() => {
-    tick().catch((err) => console.warn("[HN Radar] watcher tick:", err));
-  }, intervalMs);
+  safeTick();
+  _timer = setInterval(() => safeTick(), intervalMs);
 }
 
 export function stopWatcher() {
   if (_timer) clearInterval(_timer);
+  if (_triggerTimer) clearTimeout(_triggerTimer);
   _timer = null;
+  _triggerTimer = null;
   _running = false;
 }
 
@@ -40,8 +43,40 @@ export function isRunning() {
   return _running;
 }
 
+export function isTicking() {
+  return _ticking;
+}
+
+export function getLastTickAt() {
+  return _lastTickAt;
+}
+
 export function onUnreadChange(cb) {
   _onChange = typeof cb === "function" ? cb : null;
+}
+
+// Run a tick out-of-band — called when the user adds/enables a rule so they
+// don't have to wait up to DEFAULT_INTERVAL_MS for the next scheduled tick.
+// Debounced so rapid changes (e.g., toggling 3 rules in 2 seconds) don't
+// fire 3 fetches in a row.
+export function triggerTick(delayMs = 300) {
+  if (!_running) return;
+  if (_triggerTimer) clearTimeout(_triggerTimer);
+  _triggerTimer = setTimeout(() => {
+    _triggerTimer = null;
+    safeTick();
+  }, delayMs);
+}
+
+function safeTick() {
+  if (_ticking) return; // don't pile up if a fetch is in flight
+  _ticking = true;
+  tick()
+    .catch((err) => console.warn("[HN Radar] watcher tick:", err))
+    .finally(() => {
+      _ticking = false;
+      _lastTickAt = Date.now();
+    });
 }
 
 async function tick() {
