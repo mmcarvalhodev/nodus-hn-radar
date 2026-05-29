@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Vul minstens één voorwaarde in.",
     errMaxReached:   "Maximum van 5 regels bereikt. Verwijder er één om er nog een toe te voegen.",
     capHint:         "Alle {max} plekken zijn gebruikt — verwijder een regel om een nieuwe toe te voegen.",
-    toggleHint:      "Deze regel aan- of uitzetten"
+    toggleHint:      "Deze regel aan- of uitzetten",
+    pinMatch:        "Maak dit bericht vast om het te volgen"
   },
   cta: {
     lostAIPitch: "AI-gesprekken kwijtraken?",

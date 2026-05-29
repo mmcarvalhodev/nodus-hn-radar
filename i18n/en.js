@@ -35,7 +35,8 @@ export default {
     errCondsRequired: "Fill at least one condition.",
     errMaxReached:   "Maximum of 5 rules reached. Delete one to add another.",
     capHint:         "All {max} slots used — delete a rule to add a new one.",
-    toggleHint:      "Toggle this rule on or off"
+    toggleHint:      "Toggle this rule on or off",
+    pinMatch:        "Pin this post to track it"
   },
   cta: {
     lostAIPitch: "Losing your AI conversations?",

@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Wypełnij co najmniej jeden warunek.",
     errMaxReached:   "Osiągnięto maksimum 5 reguł. Usuń jedną, aby dodać kolejną.",
     capHint:         "Wszystkie {max} miejsca zajęte — usuń regułę, aby dodać nową.",
-    toggleHint:      "Włącz lub wyłącz tę regułę"
+    toggleHint:      "Włącz lub wyłącz tę regułę",
+    pinMatch:        "Przypnij ten post, aby go śledzić"
   },
   cta: {
     lostAIPitch: "Tracisz swoje rozmowy z AI?",

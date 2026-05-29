@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Isi setidaknya satu kondisi.",
     errMaxReached:   "Maksimum 5 aturan tercapai. Hapus satu untuk menambah aturan baru.",
     capHint:         "Semua {max} slot terpakai — hapus satu aturan untuk menambah yang baru.",
-    toggleHint:      "Aktifkan atau matikan aturan ini"
+    toggleHint:      "Aktifkan atau matikan aturan ini",
+    pinMatch:        "Sematkan posting ini untuk melacaknya"
   },
   cta: {
     lostAIPitch: "Kehilangan percakapan AI Anda?",

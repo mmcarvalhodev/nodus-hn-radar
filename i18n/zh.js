@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "请至少填写一个条件。",
     errMaxReached:   "已达到 5 条规则上限。删除一条才能添加新规则。",
     capHint:         "已用完全部 {max} 个位置 — 删除一条规则即可新增。",
-    toggleHint:      "开启或关闭此规则"
+    toggleHint:      "开启或关闭此规则",
+    pinMatch:        "固定此帖子以跟踪"
   },
   cta: {
     lostAIPitch: "AI 对话正在丢失?",

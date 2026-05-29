@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Füll mindestens eine Bedingung aus.",
     errMaxReached:   "Maximum von 5 Regeln erreicht. Lösche eine, um eine neue anzulegen.",
     capHint:         "Alle {max} Plätze belegt — lösche eine Regel, um eine neue anzulegen.",
-    toggleHint:      "Diese Regel ein- oder ausschalten"
+    toggleHint:      "Diese Regel ein- oder ausschalten",
+    pinMatch:        "Diesen Post anheften, um ihn zu verfolgen"
   },
   cta: {
     lostAIPitch: "KI-Gespräche gehen verloren?",

@@ -39,7 +39,8 @@ export default {
     errCondsRequired: "Preencha pelo menos uma condição.",
     errMaxReached:   "Máximo de 5 regras atingido. Exclua uma para adicionar outra.",
     capHint:         "Todos os {max} espaços usados — exclua uma regra para criar outra.",
-    toggleHint:      "Ativar ou desativar esta regra"
+    toggleHint:      "Ativar ou desativar esta regra",
+    pinMatch:        "Fixar este post para acompanhar"
   },
   cta: {
     lostAIPitch: "Perdendo suas conversas com IA?",

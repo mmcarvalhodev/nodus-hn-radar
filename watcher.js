@@ -135,6 +135,10 @@ async function tick() {
           ruleName:  rule.name,
           postId:    enriched.id,
           title:     enriched.title,
+          url:       enriched.url,         // for addPin when user pins from bell
+          by:        p.by || "",            // ditto
+          time:      enriched.time,         // ditto
+          type:      enriched.type,         // ditto
           points:    enriched.points,
           comments:  enriched.comments,
           domain:    enriched.domain,

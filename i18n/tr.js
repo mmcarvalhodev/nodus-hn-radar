@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "En az bir koşul doldurun.",
     errMaxReached:   "5 kural sınırına ulaşıldı. Yeni eklemek için birini silin.",
     capHint:         "{max} yuvanın tamamı dolu — yeni eklemek için bir kuralı silin.",
-    toggleHint:      "Bu kuralı aç veya kapat"
+    toggleHint:      "Bu kuralı aç veya kapat",
+    pinMatch:        "Bu gönderiyi takip etmek için sabitle"
   },
   cta: {
     lostAIPitch: "AI sohbetlerinizi kaybediyor musunuz?",

@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Điền ít nhất một điều kiện.",
     errMaxReached:   "Đã đạt tối đa 5 quy tắc. Xoá một để thêm quy tắc khác.",
     capHint:         "Đã dùng hết {max} chỗ — xoá một quy tắc để thêm mới.",
-    toggleHint:      "Bật hoặc tắt quy tắc này"
+    toggleHint:      "Bật hoặc tắt quy tắc này",
+    pinMatch:        "Ghim bài đăng này để theo dõi"
   },
   cta: {
     lostAIPitch: "Mất các cuộc trò chuyện AI?",

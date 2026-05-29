@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "조건을 하나 이상 입력하세요.",
     errMaxReached:   "규칙 최대 5개에 도달했습니다. 추가하려면 하나를 삭제하세요.",
     capHint:         "{max}개 슬롯이 모두 사용 중입니다 — 새로 추가하려면 규칙을 삭제하세요.",
-    toggleHint:      "이 규칙 켜기/끄기"
+    toggleHint:      "이 규칙 켜기/끄기",
+    pinMatch:        "이 게시물을 핀하여 추적"
   },
   cta: {
     lostAIPitch: "AI 대화를 잃고 있나요?",

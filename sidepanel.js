@@ -1,6 +1,6 @@
 import {
   getSettings, saveSettings, DEFAULT_SETTINGS,
-  getPinnedMap, removePin,
+  getPinnedMap, addPin, removePin,
   getFromStorage, setToStorage,
   getCachedComments, setCachedComments,
   setPinnedTags, pushRecentTag, getRecentTags, normalizeTag, tagHue,
@@ -985,8 +985,22 @@ function wireBell() {
 function renderBellDropdown(unread) {
   const body = $("bell-dropdown-body");
   if (!body) return;
+
+  // CTA inline at the very top of the expanded bell — high-attention spot
+  // when the user is actively reviewing notifications. Same daily-rotating
+  // pitch as the sticky footer, so the same brand message stays consistent
+  // within a day.
+  const ctaKey = pickDailyPitchKey();
+  const ctaHtml = `
+    <a class="bell-cta" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer"
+       data-i18n-title="cta.lostAITitle" title="${escapeAttr(tr("cta.lostAITitle"))}">
+      <span class="bell-cta-mark">●</span>
+      <span class="bell-cta-text" data-i18n="${ctaKey}">${escapeHtml(tr(ctaKey))}</span>
+      <span class="bell-cta-arrow">↗</span>
+    </a>`;
+
   if (!unread || unread.length === 0) {
-    body.innerHTML = `<div class="bell-empty">${tr("watch.noNotifications")}</div>`;
+    body.innerHTML = ctaHtml + `<div class="bell-empty">${tr("watch.noNotifications")}</div>`;
     return;
   }
   // Group by ruleId
@@ -995,7 +1009,7 @@ function renderBellDropdown(unread) {
     if (!groups.has(m.ruleId)) groups.set(m.ruleId, { name: m.ruleName, items: [] });
     groups.get(m.ruleId).items.push(m);
   }
-  const parts = [];
+  const parts = [ctaHtml];
   for (const [ruleId, g] of groups) {
     const hue = tagHue(g.name || ruleId);
     parts.push(`<div class="bell-group">
@@ -1005,20 +1019,55 @@ function renderBellDropdown(unread) {
         <span class="bell-group-count">${g.items.length === 1 ? tr("watch.match") : tr("watch.matches", { n: g.items.length })}</span>
       </div>
       ${g.items.map((m) => `
-        <a class="bell-match" href="${m.hnUrl}" target="_blank" rel="noopener noreferrer" data-rule="${escapeAttr(m.ruleId)}" data-post="${m.postId}">
-          <div class="bell-match-title">${escapeHtml(m.title)}</div>
-          <div class="bell-match-meta">${m.points} pts · ${m.comments} c${m.domain ? " · " + escapeHtml(m.domain) : ""}</div>
-        </a>`).join("")}
+        <div class="bell-match" data-rule="${escapeAttr(m.ruleId)}" data-post="${m.postId}">
+          <a class="bell-match-link" href="${m.hnUrl}" target="_blank" rel="noopener noreferrer">
+            <div class="bell-match-title">${escapeHtml(m.title)}</div>
+            <div class="bell-match-meta">${m.points} pts · ${m.comments} c${m.domain ? " · " + escapeHtml(m.domain) : ""}</div>
+          </a>
+          <button class="bell-match-pin" type="button" data-rule="${escapeAttr(m.ruleId)}" data-post="${m.postId}" title="${escapeAttr(tr("watch.pinMatch"))}" aria-label="${escapeAttr(tr("watch.pinMatch"))}">📌</button>
+        </div>`).join("")}
     </div>`);
   }
   body.innerHTML = parts.join("");
-  // Wire click on each match: remove from unread
-  body.querySelectorAll(".bell-match").forEach((a) => {
+
+  // Click on the match link: remove from unread + let the <a> open the HN tab
+  body.querySelectorAll(".bell-match-link").forEach((a) => {
     a.addEventListener("click", async () => {
-      const r = a.dataset.rule;
-      const p = Number(a.dataset.post);
+      const card = a.closest(".bell-match");
+      const r = card?.dataset.rule;
+      const p = Number(card?.dataset.post);
+      if (!r || !Number.isFinite(p)) return;
       await removeWatchUnread(r, p);
       await refreshBellBadge();
+    });
+  });
+
+  // Click on the pin button: adds to the Pinned section + removes from unread
+  body.querySelectorAll(".bell-match-pin").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const r = btn.dataset.rule;
+      const p = Number(btn.dataset.post);
+      const all = await getWatchUnread();
+      const m = all.find((x) => x.ruleId === r && x.postId === p);
+      if (!m) return;
+      const ageSec = m.time ? Math.floor((Date.now() / 1000) - m.time) : 0;
+      await addPin({
+        id:       String(m.postId),
+        title:    m.title,
+        url:      m.url || m.hnUrl,
+        domain:   m.domain || "",
+        score:    m.points || 0,
+        comments: m.comments || 0,
+        author:   m.by || "",
+        type:     (m.type || "").toLowerCase(),
+        itemUrl:  m.hnUrl,
+        ageText:  ageSec > 0 ? formatRelativeShort(ageSec) + " ago" : "",
+      });
+      await removeWatchUnread(r, p);
+      await refreshBellBadge();
+      // storage.onChanged will trigger renderPinned in the Pinned panel
     });
   });
 }

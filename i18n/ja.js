@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "少なくとも1つの条件を入力してください。",
     errMaxReached:   "ルールの上限5件に達しました。追加するには1件削除してください。",
     capHint:         "{max}件すべて使用中 — 新規追加にはルールを1件削除してください。",
-    toggleHint:      "このルールのオン／オフを切り替え"
+    toggleHint:      "このルールのオン／オフを切り替え",
+    pinMatch:        "この投稿をピン留めして追跡"
   },
   cta: {
     lostAIPitch: "AI との会話を失っていませんか?",

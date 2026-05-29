@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Completa al menos una condición.",
     errMaxReached:   "Máximo de 5 reglas alcanzado. Elimina una para añadir otra.",
     capHint:         "Las {max} ranuras están usadas — elimina una regla para añadir otra.",
-    toggleHint:      "Activar o desactivar esta regla"
+    toggleHint:      "Activar o desactivar esta regla",
+    pinMatch:        "Fijar este post para seguirlo"
   },
   cta: {
     lostAIPitch: "¿Perdiendo tus conversaciones con IA?",

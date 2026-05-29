@@ -31,7 +31,8 @@ export default {
     errCondsRequired: "Remplissez au moins une condition.",
     errMaxReached:   "Maximum de 5 règles atteint. Supprimez-en une pour en ajouter une autre.",
     capHint:         "Les {max} emplacements sont utilisés — supprimez une règle pour en ajouter une.",
-    toggleHint:      "Activer ou désactiver cette règle"
+    toggleHint:      "Activer ou désactiver cette règle",
+    pinMatch:        "Épingler ce post pour le suivre"
   },
   cta: {
     lostAIPitch: "Vos conversations IA s'évaporent ?",
