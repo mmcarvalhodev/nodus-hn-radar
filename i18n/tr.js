@@ -48,7 +48,10 @@ export default {
     pitch09: "En iyi AI cevaplarınız bir sohbette sıkışıp kalmamalı",
     pitch10: "Yakala. Düzenle. AI cevaplarını yeniden kullan.",
     pitch11: "Değerli bir AI cevabı mı buldunuz? Saklayın.",
-    pitch12: "AI sohbetleriniz için hafıza"
+    pitch12: "AI sohbetleriniz için hafıza",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar ücretsiz — Ko-fi'de destekle",
+    koFiTitle: "Ko-fi'de geliştirmeyi destekle"
   },
   panels: { pinned: "Sabitlenenler", radar: "Radar", watch: "İzle", settings: "Lens ayarları", comingSoon: "yakında" },
   pinned: {

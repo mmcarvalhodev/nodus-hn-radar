@@ -48,7 +48,10 @@ export default {
     pitch09: "Le tue migliori risposte IA non meritano di restare in una chat",
     pitch10: "Cattura. Organizza. Riusa le risposte IA.",
     pitch11: "Trovata una risposta IA preziosa? Salvala.",
-    pitch12: "Memoria per le tue conversazioni IA"
+    pitch12: "Memoria per le tue conversazioni IA",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar è gratis — supporta su Ko-fi",
+    koFiTitle: "Supporta lo sviluppo su Ko-fi"
   },
   panels: { pinned: "Fissati", radar: "Radar", watch: "Sorveglia", settings: "Impostazioni Lens", comingSoon: "presto" },
   pinned: {

@@ -48,7 +48,10 @@ export default {
     pitch09: "Je beste AI-antwoorden horen niet in een chat te blijven",
     pitch10: "Vastleggen. Ordenen. AI-antwoorden hergebruiken.",
     pitch11: "Waardevol AI-antwoord gevonden? Bewaar het.",
-    pitch12: "Geheugen voor je AI-gesprekken"
+    pitch12: "Geheugen voor je AI-gesprekken",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar is gratis — steun op Ko-fi",
+    koFiTitle: "Steun de ontwikkeling op Ko-fi"
   },
   panels: { pinned: "Vastgezet", radar: "Radar", watch: "Volgen", settings: "Lens-instellingen", comingSoon: "binnenkort" },
   pinned: {

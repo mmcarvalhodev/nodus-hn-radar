@@ -55,7 +55,10 @@ export default {
     pitch09: "Your best AI answers shouldn't be stuck in a chat",
     pitch10: "Capture. Organize. Reuse AI answers.",
     pitch11: "Found a valuable AI answer? Save it.",
-    pitch12: "Memory for your AI conversations"
+    pitch12: "Memory for your AI conversations",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar is free — support on Ko-fi",
+    koFiTitle: "Support development on Ko-fi"
   },
   master: {
     enabled: "Lens enabled",

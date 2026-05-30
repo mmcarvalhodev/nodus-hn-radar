@@ -48,7 +48,10 @@ export default {
     pitch09: "最好的 AI 回答不该困在聊天里",
     pitch10: "捕获。整理。复用 AI 回答。",
     pitch11: "找到宝贵的 AI 回答?保存下来。",
-    pitch12: "为你的 AI 对话留下记忆"
+    pitch12: "为你的 AI 对话留下记忆",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar 免费 — 在 Ko-fi 上支持",
+    koFiTitle: "在 Ko-fi 上支持开发"
   },
   panels: { pinned: "已固定", radar: "雷达", watch: "监视", settings: "Lens 设置", comingSoon: "即将推出" },
   pinned: {

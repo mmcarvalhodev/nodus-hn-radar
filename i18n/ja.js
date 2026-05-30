@@ -48,7 +48,10 @@ export default {
     pitch09: "大切な AI 回答をチャットに埋もれさせない",
     pitch10: "保存。整理。AI 回答を再利用。",
     pitch11: "良い AI 回答を見つけた?保存しよう。",
-    pitch12: "AI 会話のための記憶"
+    pitch12: "AI 会話のための記憶",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radarは無料 — Ko-fiで応援",
+    koFiTitle: "Ko-fiで開発を支援"
   },
   panels: { pinned: "ピン留め", radar: "レーダー", watch: "監視", settings: "Lens 設定", comingSoon: "近日公開" },
   pinned: {

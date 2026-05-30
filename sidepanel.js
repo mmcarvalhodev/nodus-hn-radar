@@ -1329,20 +1329,27 @@ function applyCtaPitch() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// CTA ticker — 6-state rotation, 5s per state, 30s full cycle.
-//   Pattern: pitch A → brand → pitch B → brand → pitch C → brand → loop
-//   Brand is shown between each pitch so the NODUS-AI mark gets
-//   3 airtime slots per cycle.
-// Drives both the sticky footer and the bell CTA in sync via the
-// .frame-N class on every .nodus-cta / .bell-cta element.
+// CTA ticker — 8-state rotation, 5s per state, 40s full cycle.
+//   Pattern: pitch A → brand → pitch B → brand → pitch C → brand
+//            → Ko-fi → brand → loop
+//   NODUS brand keeps the dominant 50% airtime (4/8 slots), 3 pitches
+//   alternate between, and Ko-fi gets a single slot per cycle as a
+//   periodic direct-support ask.
+// Drives only the sticky footer (.nodus-cta). The bell CTA is a static
+// brand anchor and doesn't participate.
 // ═══════════════════════════════════════════════════════════
 const CTA_CYCLE_MS = 5000;
-const CTA_SLIDE_COUNT = 4;          // DOM slides: 3 texts + 1 brand
-const CTA_STATE_COUNT = 6;          // ticker states cycled by the timer
+const CTA_SLIDE_COUNT = 5;          // DOM slides: 3 texts + 1 brand + 1 Ko-fi
+const CTA_STATE_COUNT = 8;          // ticker states cycled by the timer
 const PITCHES_PER_DAY = 3;
-// State → visible slide index. Text states (0,2,4) point to slides
-// 0/1/2; brand states (1,3,5) all point to slide-3.
-const STATE_TO_SLIDE = [0, 3, 1, 3, 2, 3];
+// State → visible slide index.
+//   States 0/2/4: pitch slides (0,1,2)
+//   States 1/3/5/7: brand slide (3) — dominant
+//   State 6: Ko-fi slide (4)
+const STATE_TO_SLIDE = [0, 3, 1, 3, 2, 3, 4, 3];
+const KOFI_SLIDE_IDX  = 4;
+const NODUS_HREF      = "https://nodus-ai.app";
+const KOFI_HREF       = "https://ko-fi.com/mmcarvalho";
 let _ctaFrame = 0;
 let _ctaCycleTimer = null;
 
@@ -1363,10 +1370,18 @@ function applyCtaFrameToAll() {
   // Only the sticky footer participates in the ticker now. The bell CTA
   // is a static brand anchor and doesn't take part in the frame cycle.
   const visibleSlide = STATE_TO_SLIDE[_ctaFrame];
+  const isKoFi = visibleSlide === KOFI_SLIDE_IDX;
+  const href   = isKoFi ? KOFI_HREF : NODUS_HREF;
+  const titleKey = isKoFi ? "cta.koFiTitle" : "cta.lostAITitle";
   document.querySelectorAll(".nodus-cta").forEach((el) => {
     for (let i = 0; i < CTA_SLIDE_COUNT; i++) {
       el.classList.toggle(`frame-${i}`, i === visibleSlide);
     }
+    // Rewrite the outer link target so a click always lands on the
+    // right destination for whichever CTA is currently visible.
+    el.setAttribute("href", href);
+    el.setAttribute("title", tr(titleKey));
+    el.setAttribute("data-i18n-title", titleKey);
   });
 }
 

@@ -2016,6 +2016,36 @@ body {
 .nodus-cta:hover .nodus-cta-arrow,
 .bell-cta:hover .bell-cta-arrow { color: #ff6600; }
 
+/* Ko-fi support slide — visually distinct from the NODUS brand slide.
+   Uses a coffee glyph + neutral text + Ko-fi blue accent on the arrow,
+   so users can read it as "different kind of CTA" (direct support ask). */
+.slide-kofi {
+  justify-content: center;
+  gap: 8px;
+}
+.kofi-icon {
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.kofi-text {
+  color: #ddd;
+  font-size: 12px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s;
+}
+.kofi-arrow {
+  color: #29abe0;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.nodus-cta:hover .kofi-text { color: #fff; }
+.nodus-cta:hover .kofi-arrow { color: #5fc8f2; }
+
 /* Brand slide — NODUS icon + styled "NODUS-AI" text, centered.
    No reliance on a large banner image; just a small mark + HTML/CSS. */
 .slide-brand {

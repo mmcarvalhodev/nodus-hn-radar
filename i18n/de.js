@@ -48,7 +48,10 @@ export default {
     pitch09: "Deine besten KI-Antworten gehören nicht in einen Chat",
     pitch10: "Erfassen. Ordnen. KI-Antworten wiederverwenden.",
     pitch11: "Wertvolle KI-Antwort gefunden? Speichere sie.",
-    pitch12: "Gedächtnis für deine KI-Gespräche"
+    pitch12: "Gedächtnis für deine KI-Gespräche",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar ist kostenlos — unterstütze auf Ko-fi",
+    koFiTitle: "Entwicklung auf Ko-fi unterstützen"
   },
   panels: { pinned: "Angepinnt", radar: "Radar", watch: "Beobachten", settings: "Lens-Einstellungen", comingSoon: "bald" },
   pinned: {

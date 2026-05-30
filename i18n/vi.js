@@ -48,7 +48,10 @@ export default {
     pitch09: "Câu trả lời AI quý giá không nên kẹt trong một cuộc chat",
     pitch10: "Lưu. Sắp xếp. Tái sử dụng câu trả lời AI.",
     pitch11: "Tìm thấy câu trả lời AI hay? Lưu lại đi.",
-    pitch12: "Bộ nhớ cho các cuộc trò chuyện AI của bạn"
+    pitch12: "Bộ nhớ cho các cuộc trò chuyện AI của bạn",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar miễn phí — ủng hộ trên Ko-fi",
+    koFiTitle: "Ủng hộ phát triển trên Ko-fi"
   },
   panels: { pinned: "Đã ghim", radar: "Radar", watch: "Theo dõi", settings: "Cài đặt Lens", comingSoon: "sắp ra mắt" },
   pinned: {

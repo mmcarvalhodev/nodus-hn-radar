@@ -56,7 +56,9 @@ export default {
     pitch09: "Suas melhores respostas de IA não deveriam ficar presas no chat",
     pitch10: "Capture. Organize. Reutilize respostas de IA.",
     pitch11: "Encontrou uma resposta valiosa de IA? Guarde-a.",
-    pitch12: "Memória para suas conversas com IA"
+    pitch12: "Memória para suas conversas com IA",
+    koFiPitch: "HN Radar é gratuita — apoie no Ko-fi",
+    koFiTitle: "Apoie o desenvolvimento no Ko-fi"
   },
   panels: {
     pinned:   "Fixados",

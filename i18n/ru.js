@@ -48,7 +48,10 @@ export default {
     pitch09: "Ваши лучшие ответы ИИ не должны застревать в чате",
     pitch10: "Сохрани. Упорядочи. Используй ответы ИИ снова.",
     pitch11: "Нашли ценный ответ ИИ? Сохраните его.",
-    pitch12: "Память для ваших бесед с ИИ"
+    pitch12: "Память для ваших бесед с ИИ",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar бесплатна — поддержите на Ko-fi",
+    koFiTitle: "Поддержать разработку на Ko-fi"
   },
   panels: { pinned: "Закреплённые", radar: "Радар", watch: "Наблюдение", settings: "Настройки Lens", comingSoon: "скоро" },
   pinned: {

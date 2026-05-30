@@ -280,11 +280,17 @@
 
   <footer class="footer">
     <span class="footer-brand" data-i18n="app.brand">Made by NODUS</span>
-    <span class="version">v0.16.9</span>
+    <span class="version">v0.16.10</span>
   </footer>
 
   <!-- NODUS cross-promo strip — sticky at bottom of side panel.
-       4-slide ticker: 3 daily-rotating pitches + NODUS-AI brand banner. -->
+       5-slide ticker driven by an 8-state cycle:
+         slide-0/1/2 = 3 daily-rotating pitches (NODUS cross-sell)
+         slide-3     = NODUS-AI brand banner
+         slide-4     = Ko-fi support (direct donation ask)
+       Cycle: pitch A → brand → pitch B → brand → pitch C → brand → Ko-fi → brand
+       href on the outer <a> is rewritten by JS depending on which slide is
+       active (nodus-ai.app for slides 0-3, ko-fi.com for slide-4). -->
   <a class="nodus-cta frame-0" href="https://nodus-ai.app" target="_blank" rel="noopener noreferrer" data-i18n-title="cta.lostAITitle" title="Open NODUS — capture AI conversations">
     <span class="nodus-cta-slide slide-0">
       <span class="nodus-cta-mark">●</span>
@@ -305,6 +311,11 @@
       <img class="nodus-mark-img" src="icons/nodus-mark.png" alt="" />
       <span class="nodus-brand-sep"></span>
       <span class="nodus-brand-text"><span class="nodus-brand-name">NODUS</span><span class="nodus-brand-tag">-AI</span></span>
+    </span>
+    <span class="nodus-cta-slide slide-4 slide-kofi">
+      <span class="kofi-icon">☕</span>
+      <span class="kofi-text" data-i18n="cta.koFiPitch">HN Radar is free — support on Ko-fi</span>
+      <span class="kofi-arrow">↗</span>
     </span>
   </a>
 

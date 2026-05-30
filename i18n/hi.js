@@ -48,7 +48,10 @@ export default {
     pitch09: "आपके बेहतरीन AI जवाब चैट में फँसे नहीं रहने चाहिए",
     pitch10: "कैप्चर करें। व्यवस्थित करें। AI जवाब दोबारा उपयोग करें।",
     pitch11: "कोई कीमती AI जवाब मिला? सहेज लें।",
-    pitch12: "आपकी AI बातचीत के लिए स्मृति"
+    pitch12: "आपकी AI बातचीत के लिए स्मृति",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar मुफ़्त है — Ko-fi पर समर्थन दें",
+    koFiTitle: "Ko-fi पर विकास का समर्थन करें"
   },
   panels: { pinned: "पिन किए गए", radar: "रडार", watch: "निगरानी", settings: "Lens सेटिंग्स", comingSoon: "जल्द आ रहा है" },
   pinned: {

@@ -48,7 +48,10 @@ export default {
     pitch09: "Jawaban AI terbaik Anda tak seharusnya terjebak di chat",
     pitch10: "Tangkap. Atur. Pakai ulang jawaban AI.",
     pitch11: "Menemukan jawaban AI berharga? Simpan.",
-    pitch12: "Memori untuk percakapan AI Anda"
+    pitch12: "Memori untuk percakapan AI Anda",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar gratis — dukung di Ko-fi",
+    koFiTitle: "Dukung pengembangan di Ko-fi"
   },
   panels: { pinned: "Disematkan", radar: "Radar", watch: "Pantau", settings: "Pengaturan Lens", comingSoon: "segera hadir" },
   pinned: {

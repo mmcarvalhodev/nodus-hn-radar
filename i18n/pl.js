@@ -48,7 +48,10 @@ export default {
     pitch09: "Twoje najlepsze odpowiedzi AI nie powinny tkwić w czacie",
     pitch10: "Zapisz. Uporządkuj. Użyj ponownie odpowiedzi AI.",
     pitch11: "Znalazłeś cenną odpowiedź AI? Zachowaj ją.",
-    pitch12: "Pamięć dla twoich rozmów z AI"
+    pitch12: "Pamięć dla twoich rozmów z AI",
+    // Ko-fi support slide (state 6 of the 8-state ticker)
+    koFiPitch: "HN Radar jest darmowy — wesprzyj na Ko-fi",
+    koFiTitle: "Wesprzyj rozwój na Ko-fi"
   },
   panels: { pinned: "Przypięte", radar: "Radar", watch: "Obserwuj", settings: "Ustawienia Lens", comingSoon: "wkrótce" },
   pinned: {
